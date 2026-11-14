@@ -206,6 +206,12 @@ h2{font-size:clamp(35px,3.8vw,54px);line-height:1.08;letter-spacing:-.03em;font-
 .tour{background:var(--bg);padding:90px 0 112px}
 .tour.chap{position:relative}
 .tgr{display:grid;grid-template-columns:minmax(0,1fr) 340px;column-gap:80px;align-items:center}
+.tphwrap{position:relative;display:flex;justify-content:center}
+.tarrow{position:absolute;top:50%;translate:0 -50%;width:40px;height:40px;border-radius:50%;background:var(--card);border:1px solid var(--line);color:var(--pr);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--shadow);transition:scale .15s,background .15s;z-index:2}
+.tarrow-l{left:-16px}
+.tarrow-r{right:-16px}
+.tarrow:hover{background:var(--mint);scale:1.08}
+.tarrow:active{scale:.94}
 .ttabs{display:flex;flex-wrap:wrap;gap:8px;margin-top:30px}
 .ttabs button{font:inherit;font-size:16px;font-weight:600;color:var(--ink);background:var(--card);border:0;border-radius:22px;min-height:44px;padding:0 18px;cursor:pointer}
 .ttabs .on{background:var(--pr);color:var(--onpr)}
@@ -384,7 +390,9 @@ h1{font-size:39px}
 .tl1{display:contents}
 .tl1 h2{order:1}.tl1 .sub{order:2}.ttabs{order:3;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-top:18px}
 .ttabs button{flex:none;font-size:15px;min-height:40px;padding:0 15px}
-.tph{order:4;--w:min(225px,60vw);margin-top:18px;align-self:center}
+.tph{--w:min(225px,60vw)}
+.tphwrap{order:4;margin-top:18px}
+.tarrow{display:none}
 .tact{order:5;min-height:150px;margin-top:14px}
 .tact button{font-size:16px;padding:9px 10px}
 .thint{order:6}
@@ -821,7 +829,11 @@ html{scroll-behavior:auto}
 <div class="ttabs" id="ttabs"></div>
 <ul class="tact" id="tact"></ul>
 </div>
+<div class="tphwrap">
+<button class="tarrow tarrow-l" id="tprev" type="button" aria-label="Previous screen"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
 <div class="ph tph" id="tph" role="img" aria-label="Short demos of ILLU, playing on a phone"><div class="scr" id="tourp"></div></div>
+<button class="tarrow tarrow-r" id="tnext" type="button" aria-label="Next screen"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+</div>
 </div></div></section>
 </div>
 
@@ -1104,6 +1116,9 @@ var sx=null,sy=0;
 tph.addEventListener('pointerdown',function(e){sx=e.clientX;sy=e.clientY;});
 tph.addEventListener('pointerup',function(e){if(sx===null)return;var dx=e.clientX-sx,dy=e.clientY-sy;sx=null;if(Math.abs(dx)>36&&Math.abs(dx)>Math.abs(dy)*1.2){var dir=dx<0?1:-1;pick((grp+dir+TOUR.length)%TOUR.length,0,dir);}});
 tph.addEventListener('pointercancel',function(){sx=null;});
+var tprev=$('tprev'),tnext=$('tnext');
+tprev.addEventListener('click',function(){pick((grp-1+TOUR.length)%TOUR.length,0,-1);});
+tnext.addEventListener('click',function(){pick((grp+1)%TOUR.length,0,1);});
 paint();
 new IntersectionObserver(function(es){inView=es[0].isIntersecting;if(inView&&!calm)run();else if(!inView){gen++;player.stop();}},{threshold:.35}).observe($('tourp'));
 
