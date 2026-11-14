@@ -1,0 +1,1166 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ILLU: your family's money, from your bank's SMS</title>
+<meta name="description" content="ILLU adds your bank's SMS alerts to your ledger, shows where the money went, and puts the whole family on one page. No account, no ads, no internet permission. For Android.">
+<link rel="canonical" href="https://illuapp.in/">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F9FBF9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0F1714" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preload" href="assets/onest.ttf" as="font" type="font/ttf" crossorigin>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ILLU">
+<meta property="og:url" content="https://illuapp.in/">
+<meta property="og:title" content="Your bank already texts you every expense.">
+<meta property="og:description" content="ILLU adds them to your ledger, shows where the money went, and puts the whole family on one page. No account, no ads, no internet permission.">
+<meta property="og:image" content="https://illuapp.in/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"ILLU","operatingSystem":"Android","applicationCategory":"FinanceApplication","description":"ILLU adds your bank's SMS alerts to your ledger and puts the whole family on one page.","url":"https://illuapp.in/"}</script>
+<style>
+@font-face{font-family:Onest;src:url(assets/onest.ttf) format("truetype");font-weight:100 900;font-display:swap}
+:root{--cream:#F6F5F0;--honey:#FFF6DF;--bg:#F9FBF9;--card:#fff;--inner:#EEF2EE;--ink:#10241B;--ink2:#2C4438;--mu:#5E6E66;--line:#E1E8E2;--pr:#0B5D3B;--onpr:#fff;--mint:#E7F2EC;--out:#B8402B;--in:#0E7C4F;--gold:#F7B900;--ring:rgba(11,93,59,.17);--sms:#fff;--smsink:#46534C;--st1:#8E5BC7;--st2:#EFE6FA;--privbg:#0B5D3B;--privpanel:#084A2F;--navbg:rgba(249,251,249,.88);--shadow:0 18px 44px rgba(11,60,40,.2)}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--cream:#141D19;--honey:#262215;--bg:#0F1714;--card:#17221D;--inner:#1E2B25;--ink:#E8EFEA;--ink2:#C9D6CF;--mu:#9FB0A7;--line:#24322B;--pr:#7FDCAE;--onpr:#0B2A1C;--mint:#1A2E25;--out:#FF8A6B;--in:#4DDBA0;--gold:#F7C948;--ring:rgba(127,220,174,.22);--sms:#1E2B25;--smsink:#C9D6CF;--st1:#B58BEB;--st2:#2C2340;--privbg:#14392A;--privpanel:#0F2C20;--navbg:rgba(15,23,20,.88);--shadow:0 18px 44px rgba(0,0,0,.5);color-scheme:dark}}
+:root[data-theme=dark]{--cream:#141D19;--honey:#262215;--bg:#0F1714;--card:#17221D;--inner:#1E2B25;--ink:#E8EFEA;--ink2:#C9D6CF;--mu:#9FB0A7;--line:#24322B;--pr:#7FDCAE;--onpr:#0B2A1C;--mint:#1A2E25;--out:#FF8A6B;--in:#4DDBA0;--gold:#F7C948;--ring:rgba(127,220,174,.22);--sms:#1E2B25;--smsink:#C9D6CF;--st1:#B58BEB;--st2:#2C2340;--privbg:#14392A;--privpanel:#0F2C20;--navbg:rgba(15,23,20,.88);--shadow:0 18px 44px rgba(0,0,0,.5);color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Onest,system-ui,sans-serif;font-size:18px;line-height:1.5;overflow-x:clip}
+h1,h2,h3,p{margin:0}
+a{color:inherit}
+img{display:block;max-width:100%}
+a:focus-visible,summary:focus-visible,button:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:6px}
+.in{width:min(1160px,calc(100% - 40px));margin:0 auto;position:relative}
+h1{font-size:clamp(44px,5.1vw,74px);line-height:1.04;letter-spacing:-.035em;font-weight:700;text-wrap:balance}
+h2{font-size:clamp(35px,3.8vw,54px);line-height:1.08;letter-spacing:-.03em;font-weight:700;text-wrap:balance}
+.lead{font-size:clamp(18px,1.55vw,22px);line-height:1.45;color:var(--ink2)}
+.sub{margin-top:18px;font-size:clamp(18px,1.45vw,21px);line-height:1.45;color:var(--mu);max-width:560px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:58px;padding:0 28px;border-radius:29px;background:var(--pr);color:var(--onpr);font-size:18px;font-weight:600;text-decoration:none}
+
+.top{position:sticky;top:0;z-index:50;background:var(--navbg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.bar{height:68px;display:flex;align-items:center;gap:30px;font-size:16px;font-weight:500}
+.brand{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:800;letter-spacing:.05em;color:var(--pr);margin-right:auto;text-decoration:none}
+.brand img{width:34px;height:34px;border-radius:9px}
+.bar a.lnk{text-decoration:none;padding:6px 2px;border-bottom:2px solid transparent;transition:border-color .2s,color .2s;color:var(--mu)}
+.bar a.lnk.on{color:var(--ink);border-color:var(--pr)}
+.bar .go{display:flex;align-items:center;gap:8px;height:42px;padding:0 18px;border-radius:21px;background:var(--pr);color:var(--onpr);font-size:15px;font-weight:600;text-decoration:none}
+.now{display:none;font-size:14.5px;font-weight:600;color:var(--pr)}
+
+.ph{--w:250px;width:var(--w);height:calc(var(--w)*2.06);background:#10241B;border-radius:calc(var(--w)*.125);padding:calc(var(--w)*.03);box-shadow:var(--shadow);flex:none}
+.scr{container-type:inline-size;position:relative;width:100%;height:100%;border-radius:calc(var(--w)*.1);overflow:hidden;background:#F9FBF9}
+.still .app,.layer .app{pointer-events:none}
+.layer{position:absolute;inset:0;opacity:0;transition:opacity .45s}
+.layer.on{opacity:1}
+
+.sms{background:var(--sms);border-radius:18px 18px 18px 5px;padding:12px 15px;font:13.5px/1.42 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:var(--smsink);box-shadow:0 10px 26px rgba(11,60,40,.16)}
+.sms em{display:block;font-style:normal;font-weight:600;font-size:12px;color:var(--mu);margin-bottom:3px}
+
+.hero{background:var(--mint);overflow:hidden;padding:68px 0 0}
+.rings{position:absolute;inset:0;background:repeating-radial-gradient(circle at 100% 0%,transparent 0 42px,var(--ring) 42px 44px);-webkit-mask-image:radial-gradient(circle at 100% 0%,#000 22%,transparent 70%);mask-image:radial-gradient(circle at 100% 0%,#000 22%,transparent 70%)}
+.hg{display:grid;grid-template-columns:minmax(0,1fr) 640px;column-gap:30px;align-items:center;min-height:680px;padding:30px 0 0}
+.hl .lead{margin:22px 0 30px;max-width:520px}
+.note{margin-top:14px;font-size:15.5px;color:var(--ink2)}
+.fan{position:relative;height:640px;align-self:end}
+.fan .ph{position:absolute;bottom:-90px;left:50%;--w:262px;margin-left:calc(var(--w)/-2);transition:transform 1s cubic-bezier(.2,.8,.2,1)}
+.fan .p1{z-index:1}.fan .p2{z-index:3}.fan .p3{z-index:2}
+.ready .fan .p1{transform:translate(calc(-162px + var(--sx,0px)*-1),36px) rotate(-8deg)}
+.ready .fan .p3{transform:translate(calc(162px + var(--sx,0px)),36px) rotate(8deg)}
+.fan .sms{position:absolute;z-index:6;left:-2%;top:6%;width:272px;opacity:0;animation:smsIn 2.5s .7s both cubic-bezier(.3,.7,.2,1)}
+@keyframes smsIn{
+0%{opacity:0;transform:translateX(-30px)}
+22%,62%{opacity:1;transform:none}
+100%{opacity:0;transform:translate(180px,250px) scale(.28)}
+}
+.pillars{display:flex;flex-wrap:wrap;gap:10px;margin-top:34px;padding:0;list-style:none}
+.pillars a{display:flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;background:var(--card);border-radius:22px;font-size:15.5px;font-weight:600;text-decoration:none;color:var(--ink)}
+.pillars svg{color:var(--pr)}
+
+.story{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);column-gap:30px;position:relative}
+.stage{position:sticky;top:68px;height:calc(100vh - 68px);display:grid;place-items:center;grid-column:2;grid-row:1}
+.steps{grid-column:1;grid-row:1}
+.disc{position:absolute;left:50%;top:50%;width:min(700px,92vh);aspect-ratio:1;translate:-50% -50%;border-radius:50%;background:repeating-radial-gradient(circle at 50% 50%,transparent 0 40px,var(--ring) 40px 42px),radial-gradient(circle,var(--mint) 0 48%,transparent 70%);-webkit-mask-image:radial-gradient(circle,#000 42%,transparent 70%);mask-image:radial-gradient(circle,#000 42%,transparent 70%);transform:scale(var(--ds,1)) rotate(var(--dr,0deg))}
+.rig{position:relative;--w:min(320px,calc((100vh - 120px)/2.06))}
+.rig .ph{--w:inherit;transform:rotate(var(--rot,0deg));transition:transform .5s}
+.pulse{position:absolute;left:50%;top:52%;width:120px;height:120px;margin:-60px;border-radius:50%;border:2px solid var(--pr);opacity:0;pointer-events:none}
+.go1 .pulse.p-a,.go2 .pulse.p-b{animation:pu 1.1s ease-out}
+@keyframes pu{
+0%{opacity:.8;transform:scale(.4)}
+100%{opacity:0;transform:scale(5)}
+}
+.fl{position:absolute;z-index:6;opacity:0;pointer-events:none;transition:opacity .4s,transform .55s cubic-bezier(.3,.7,.2,1)}
+.fl.sms{width:244px;right:calc(100% - 76px);top:20%;transform:translateX(-30px)}
+.fl.sms.sm2{top:40%}
+.fl.sms.shown{opacity:1;transform:none}
+.fl.sms.landed{opacity:0;transform:translate(170px,130px) scale(.28)}
+.step{min-height:85vh;padding-bottom:28vh;position:relative;opacity:.22;transition:opacity .35s}
+.step.cur{opacity:1}
+.step.long{min-height:170vh}
+.step.an{min-height:190vh}
+.st{position:sticky;top:calc(50vh - 150px);padding:0 10px 0 0;max-width:500px;min-height:300px}
+.st h2{font-size:clamp(32px,3.3vw,46px)}
+.chip{display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 13px;border-radius:17px;background:var(--mint);color:var(--pr);font-size:14.5px;font-weight:600;margin-bottom:18px}
+.protag{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 10px;border-radius:12px;background:var(--honey);border:1px solid var(--gold);color:#946200;font-size:13px;font-weight:700;margin-bottom:10px}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .protag{color:var(--gold)}}
+:root[data-theme=dark] .protag{color:var(--gold)}
+.safe{display:flex;align-items:center;gap:9px;margin-top:18px;font-size:17px;font-weight:600;color:var(--pr)}
+.beats{list-style:none;margin:22px 0 0;padding:0;display:grid;gap:4px}
+.beats li{font-size:18px;padding:9px 0 9px 16px;border-left:3px solid var(--line);color:var(--mu);transition:color .3s,border-color .3s}
+.beats li.on{color:var(--ink);border-color:var(--pr);font-weight:600}
+
+.fam{position:relative;background:#F6F5F0;color:#10241B;border-radius:44px;overflow:hidden}
+.fg{display:grid;grid-template-columns:470px minmax(0,1fr);min-height:700px;align-items:center}
+.ft{padding:64px 0;position:relative;z-index:3}
+.fam .chip{background:#E7F2EC;color:#0B5D3B}
+.fam .sub{color:#46584F}
+.scene{position:absolute;right:0;bottom:0;width:min(64vw,980px);overflow:hidden}
+.scene img{width:100%;transform-origin:50% 100%;transform:scale(var(--cz,1));-webkit-mask-image:linear-gradient(to right,transparent,#000 14%);mask-image:linear-gradient(to right,transparent,#000 14%)}
+.sumcard{margin-top:30px;background:#fff;border:6px solid #A9E6C7;border-radius:30px;padding:20px 24px}
+.sumcard small{font-size:15px;color:#2C4438}
+.sumcard .big{font-size:46px;font-weight:700;letter-spacing:-.02em;line-height:1.15}
+.split{display:flex;gap:4px;height:11px;margin:14px 0}
+.split i{display:block;height:100%;border-radius:6px;width:0;transition:width 1.3s cubic-bezier(.2,.8,.2,1) .25s}
+.in-v .split i.me{width:69%;background:#0B5D3B}
+.in-v .split i.rv{width:31%;background:#A97BFF}
+.who{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.who div{display:flex;align-items:center;gap:10px}
+.who u{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;text-decoration:none;font-size:15px;flex:none}
+.who span{font-size:13.5px;color:#46584F;line-height:1.2}
+.who b{display:block;font-size:18px;font-weight:600;color:#10241B}
+
+.lvh{margin-top:96px}
+.lgrid{display:grid;grid-template-columns:minmax(0,1fr) 500px;gap:60px;margin-top:40px;align-items:center}
+.opts{display:grid;gap:12px}
+.opt{display:block;width:100%;text-align:left;font:inherit;color:inherit;background:var(--card);border:2px solid var(--line);border-radius:22px;padding:18px 22px;cursor:pointer;transition:border-color .25s,background .25s}
+.opt.on{border-color:var(--pr);background:var(--mint)}
+.opt b{display:block;font-size:22px;font-weight:600;line-height:1.25}
+.opt span{display:block;font-size:17px;color:var(--mu);margin-top:2px}
+.opt.on span{color:var(--ink2)}
+.nvr{display:flex;align-items:center;gap:10px;margin-top:18px;font-size:17px;font-weight:600;color:var(--pr)}
+.lvp{background:var(--card);border:1px solid var(--line);border-radius:26px;padding:24px 28px;box-shadow:var(--shadow)}
+.lvp>small{font-size:15px;color:var(--mu)}
+.lvt{font-size:48px;font-weight:700;letter-spacing:-.03em;color:var(--out);line-height:1.15}
+.lvs{font-size:15.5px;color:var(--mu);margin-bottom:12px}
+.lvc{border-top:1px solid var(--line);padding:11px 0;transition:filter .4s,opacity .4s}
+.lvc>div{display:flex;justify-content:space-between;font-size:17px;font-weight:600}
+.lvc>div b{font-weight:600;color:var(--out)}
+.lve{font-size:14.5px;color:var(--mu);display:flex;justify-content:space-between;margin-top:3px;transition:filter .4s,opacity .4s}
+.lvp[data-l="0"] .lvc{filter:blur(6px);opacity:.5}
+.lvp[data-l="1"] .lve{filter:blur(5px);opacity:.55}
+.sync{display:flex;align-items:center;gap:22px;margin-top:40px;font-size:18px;color:var(--ink2)}
+.link{position:relative;flex:none;width:150px;height:40px;display:flex;justify-content:space-between;align-items:center}
+.link u{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;text-decoration:none;font-size:15px;position:relative;z-index:1}
+.link::before{content:"";position:absolute;left:30px;right:30px;top:50%;border-top:2px dashed var(--line)}
+.link i{position:absolute;top:50%;left:34px;width:9px;height:9px;margin-top:-4.5px;border-radius:50%;background:var(--gold);animation:hop 2.4s ease-in-out infinite alternate}
+@keyframes hop{to{left:106px}}
+
+.sec{padding:112px 0}
+.stack{position:relative;isolation:isolate}
+
+.in-v .split i.v{width:var(--w)}
+.op .fg{min-height:640px}
+.scene.fill{top:0}
+.scene.fill img{transform:none!important}
+.scene.fill img{height:100%;object-fit:cover;object-position:var(--op,60%) 100%;-webkit-mask-image:linear-gradient(to right,transparent,#000 22%);mask-image:linear-gradient(to right,transparent,#000 22%)}
+.h2x{font-size:clamp(28px,2.8vw,40px);line-height:1.12;letter-spacing:-.025em;font-weight:700}
+.c-core .story{margin-top:0}
+.chap{position:sticky;top:0;border-radius:44px 44px 0 0;margin-top:-44px;box-shadow:0 -16px 36px rgba(11,60,40,.13)}
+.hero.chap{border-radius:0;box-shadow:none;margin-top:-68px;padding-bottom:44px}
+.c-core{background:var(--bg)}
+.c-fam{background:var(--cream);padding-bottom:156px}
+.c-bud{background:var(--honey);padding:0 0 156px}
+.c-bud>.in{padding-top:80px}
+.ev{background:var(--mint)}
+.ev .sec{padding:90px 0 134px}
+.eg{display:grid;grid-template-columns:262px minmax(0,1fr);column-gap:70px;align-items:center}
+.esteps{list-style:none;margin:28px 0 0;padding:0;display:grid;gap:18px}
+.esteps li{display:grid;grid-template-columns:34px 1fr;column-gap:14px}
+.esteps i{grid-row:1/3;width:34px;height:34px;border-radius:50%;background:var(--pr);color:var(--onpr);font-style:normal;font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center}
+.esteps b{font-size:20px;font-weight:600;line-height:1.3}
+.esteps span{font-size:17px;color:var(--ink2)}
+.chart h3{font-size:20px;font-weight:600;margin-bottom:12px}
+.chart{background:var(--card);border-radius:24px;padding:24px 26px 18px;margin-top:48px}
+.leg{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;margin-bottom:16px}
+.leg span{display:flex;align-items:center;gap:7px}
+.leg i{display:block;width:13px;height:13px;border-radius:4px}
+.plot{height:240px;display:flex;align-items:flex-end;justify-content:space-between;border-bottom:1px solid var(--line)}
+.cbar{width:13%;height:var(--h);display:flex;flex-direction:column;border-radius:9px 9px 0 0;overflow:hidden;transform-origin:bottom;transform:scaleY(0);transition:transform .8s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--n)*90ms)}
+.in-v .cbar{transform:none}
+.cbar span{display:block}
+.cme{background:#0B5D3B}.crv{background:#FFA726}.cst{background:repeating-linear-gradient(135deg,var(--st1) 0 5px,var(--st2) 5px 8px)}
+.grow{transform:scaleY(0);transform-origin:bottom;transition:transform .5s 1.05s ease-out}
+.in-v .grow{transform:none}
+.ms{display:flex;justify-content:space-between;font-size:14px;color:var(--mu);padding-top:8px}
+.ms span{width:13%;text-align:center}.ms b{font-weight:700;color:var(--ink)}
+
+.bgr{display:grid;grid-template-columns:262px minmax(0,1fr);column-gap:80px;align-items:center}
+.blist{list-style:none;margin:26px 0 0;padding:0;display:grid;gap:8px}
+.blist button{display:block;width:100%;text-align:left;font:inherit;color:inherit;background:transparent;border:0;border-left:3px solid rgba(16,36,27,.14);padding:12px 0 12px 18px;cursor:pointer;transition:border-color .3s,opacity .3s;opacity:.62}
+.blist button.on{border-color:var(--pr);opacity:1}
+.blist b{display:block;font-size:20px;font-weight:600;line-height:1.3}
+.blist span{display:block;font-size:17px;line-height:1.45;color:var(--ink2);margin-top:2px}
+
+.tour{background:var(--bg);padding:90px 0 112px}
+.tour.chap{position:relative}
+.tgr{display:grid;grid-template-columns:minmax(0,1fr) 340px;column-gap:80px;align-items:center}
+.ttabs{display:flex;flex-wrap:wrap;gap:8px;margin-top:30px}
+.ttabs button{font:inherit;font-size:16px;font-weight:600;color:var(--ink);background:var(--card);border:0;border-radius:22px;min-height:44px;padding:0 18px;cursor:pointer}
+.ttabs .on{background:var(--pr);color:var(--onpr)}
+.tact{list-style:none;margin:22px 0 0;padding:0;display:grid;gap:8px;min-height:190px;align-content:start}
+.tact button{display:flex;align-items:center;gap:14px;width:100%;font:inherit;font-size:18px;color:var(--ink);text-align:left;background:transparent;border:0;border-radius:16px;padding:12px 14px;cursor:pointer;transition:background .25s}
+.tact button.on{background:var(--card);font-weight:600}
+.tact i{width:30px;height:30px;border-radius:50%;background:var(--card);color:var(--pr);display:flex;align-items:center;justify-content:center;flex:none}
+.tact .on i{background:var(--pr);color:var(--onpr)}
+.tph{--w:320px;justify-self:center;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
+.tph .app{pointer-events:none}
+.thint{margin-top:14px;font-size:15.5px;color:var(--ink2)}
+
+.priv{position:relative;background:var(--privbg);color:#fff;overflow:hidden}
+.ringsb{position:absolute;inset:0;background:repeating-radial-gradient(circle at 0% 100%,transparent 0 42px,rgba(255,255,255,.12) 42px 44px);-webkit-mask-image:radial-gradient(circle at 0% 100%,#000 18%,transparent 62%);mask-image:radial-gradient(circle at 0% 100%,#000 18%,transparent 62%)}
+.pgrid{display:grid;grid-template-columns:560px 500px;justify-content:space-between;align-items:center}
+.priv h2{font-size:clamp(43px,4.6vw,66px);line-height:1.04}
+.priv p{margin-top:22px;font-size:clamp(18px,1.45vw,21px);line-height:1.45;color:#D5EBDE}
+.priv p.sm{font-size:16.5px;color:#BCDCCB}
+.priv a{display:inline-block;margin-top:24px;color:#fff;font-weight:600;font-size:17px}
+.perm{background:var(--privpanel);border-radius:24px;padding:22px 26px 12px}
+.perm h3{font-size:17px;font-weight:600;color:#BCDCCB;margin-bottom:10px}
+.pr-r{display:flex;align-items:center;min-height:50px;font-size:17px;gap:14px;opacity:.18;transition:opacity .35s;transition-delay:calc(var(--n)*130ms)}
+.in-v .pr-r{opacity:1}
+.pr-r+.pr-r{border-top:1px solid rgba(255,255,255,.14)}
+.pr-r span{flex:1}
+.pr-r small{font-size:15px;color:#BCDCCB;text-align:right}
+.pr-r b{font-size:15.5px;font-weight:600;color:#7FDCAE}
+.noask{background:#7FDCAE;color:#0B2A1C;border-radius:18px;padding:16px 18px 14px;margin:12px 0 4px;opacity:.18;transform:scale(.97);transition:opacity .4s .75s,transform .4s .75s}
+.in-v .noask{opacity:1;transform:none}
+.perm .noask h3{color:#0B2A1C;font-size:18px;margin-bottom:10px}
+.ncs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.nc{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:16.5px;font-weight:600}
+.chk{margin-top:10px;padding:16px 0 14px}
+.chk b{display:block;font-size:18px;font-weight:600;margin-bottom:4px}
+.chk span{font-size:15.5px;line-height:1.45;color:#D5EBDE}
+.chk em{font-style:normal;font-weight:600;color:#fff}
+
+.dots{display:flex!important;gap:5px;margin-top:5px}
+.dots i{width:15px;height:15px;border-radius:50%;display:block}
+.launch{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:600;margin:56px 0 18px}
+.launch i{width:10px;height:10px;border-radius:50%;background:var(--gold);display:block}
+.offer{display:inline-flex;align-items:center;gap:10px;margin-top:22px;padding:10px 18px;border-radius:20px;background:var(--honey);font-size:16px;font-weight:600;color:#946200}
+.offer i{width:9px;height:9px;border-radius:50%;background:var(--gold);display:block;flex:none}
+.offer.teaser{background:transparent;border:1.5px dashed var(--gold)}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .offer{color:var(--gold)}}
+:root[data-theme=dark] .offer{color:var(--gold)}
+.pralso{margin-top:18px;font-size:16.5px;color:var(--ink2)}
+.prgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+.prcard{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px 24px}
+.prcard i{display:flex;width:40px;height:40px;align-items:center;justify-content:center;border-radius:12px;background:var(--mint);color:var(--pr);margin-bottom:12px}
+.prcard b{display:block;font-size:18.5px;font-weight:600}
+.prcard span{display:block;margin-top:4px;font-size:15.5px;color:var(--ink2);line-height:1.4}
+.prfree{margin-top:26px;background:var(--mint);border-radius:22px;padding:18px 24px}
+.prfree b{font-size:17px;font-weight:600}
+.prfree-tog{margin-top:4px;display:inline-flex;align-items:center;gap:6px;font:inherit;font-size:15px;font-weight:600;color:var(--pr);background:transparent;border:0;padding:0;cursor:pointer}
+.prfree-tog svg{transition:transform .2s}
+.prfree-tog[aria-expanded=true] svg{transform:rotate(180deg)}
+.prfree-list{margin:12px 0 0;font-size:15px;color:var(--ink2);line-height:1.6}
+.prwk{margin-top:14px;font-size:15px;color:var(--mu)}
+.prpay{margin-top:18px;font-size:17px;font-weight:600}
+.prup{margin-top:16px;max-width:560px;font-size:15.5px;color:var(--ink2);line-height:1.5}
+.prfinal{display:block;margin-top:8px;font-size:14px;color:var(--mu)}
+.bell-dlg{max-width:380px;width:calc(100% - 48px);border:0;border-radius:24px;padding:30px 28px;background:var(--card);color:var(--ink);box-shadow:var(--shadow)}
+.bell-dlg::backdrop{background:rgba(0,0,0,.45)}
+.bell-dlg svg{color:var(--pr)}
+.bell-dlg h3{margin:14px 0 8px;font-size:21px}
+.bell-dlg p{margin:0 0 10px;font-size:16px;color:var(--ink2);line-height:1.5}
+.bell-dlg .bell-mu{font-size:14px;color:var(--mu)}
+.bell-dlg .btn{margin-top:10px;width:100%;justify-content:center}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.plan{background:var(--card);border:1px solid var(--line);border-radius:26px;padding:24px 26px;display:flex;flex-direction:column}
+.phs{display:flex;gap:6px;height:66px;align-items:flex-end;margin-bottom:18px}
+.phs i{width:32px;height:62px;border-radius:7px;border:3px solid var(--pr);background:var(--mint);display:block}
+.phs.six i{width:24px;height:46px;border-width:2.5px;border-radius:6px}
+.plan b{font-size:25px;font-weight:600;line-height:1.2}
+.plan small{font-size:15.5px;color:var(--mu)}
+.pz{display:flex;align-items:baseline;gap:12px;margin-top:14px}
+.pz strong{font-size:44px;font-weight:700;letter-spacing:-.025em;line-height:1.1}
+.pz s{font-size:19px;color:var(--mu)}
+.prc{margin-top:26px;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.prc small{font-size:15.5px;color:var(--mu)}
+
+.fq{display:grid;grid-template-columns:360px 1fr;column-gap:90px}
+details{border-top:1px solid var(--line)}
+summary{list-style:none;cursor:pointer;padding:18px 0;font-size:19px;font-weight:500;display:flex;justify-content:space-between;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary u{text-decoration:none;color:var(--pr);font-size:24px;line-height:1}
+summary u::before{content:"+"}
+details[open] summary u::before{content:"–"}
+details p{font-size:17px;color:var(--mu);margin:-6px 0 0;padding-bottom:18px;max-width:640px}
+footer{border-top:1px solid var(--line);padding:34px 0 48px;font-size:15.5px;color:var(--mu)}
+.fo{display:flex;gap:32px;align-items:center;flex-wrap:wrap}
+.fo b{font-size:20px;font-weight:800;letter-spacing:.05em;color:var(--pr);margin-right:auto}
+
+@media (max-width:900px){
+body{font-size:16.5px}
+.bar{gap:12px;height:60px}
+.bar a.lnk{display:none}
+.now{display:block;margin-right:2px}
+.brand{font-size:20px}.brand img{width:30px;height:30px}
+.bar .go{height:38px;padding:0 13px;font-size:14px;white-space:nowrap;flex:none}
+.now{white-space:nowrap}
+.layer .sc{padding-bottom:300px}
+html{scroll-padding-top:66px}
+.chap{border-radius:30px 30px 0 0;margin-top:-30px}
+.hero.chap{margin-top:-60px;padding-top:60px;padding-bottom:30px}
+.c-fam{padding-bottom:94px}
+.c-bud{padding:0 0 94px}
+.c-bud>.in{padding-top:48px}
+.hg{grid-template-columns:1fr;min-height:0;padding-top:20px}
+.hl .lead{margin:18px 0 24px}
+.btn{width:100%;font-size:17px;padding:0 12px}
+.pillars{display:none}
+h1{font-size:39px}
+.fan{height:318px;margin-top:6px;width:100%}
+.fan .ph{--w:150px;bottom:-50px}
+.ready .fan .p1{transform:translate(-92px,28px) rotate(-8deg)}
+.ready .fan .p3{transform:translate(92px,28px) rotate(8deg)}
+.fan .sms{left:0;right:0;top:0;width:auto;margin:0 6px}
+@keyframes smsIn{
+0%{opacity:0;transform:translateY(-14px)}
+22%,62%{opacity:1;transform:none}
+100%{opacity:0;transform:translateY(150px) scale(.3)}
+}
+.story{display:block}
+.stage{top:60px;height:44svh;z-index:5;background:var(--bg);overflow:hidden;place-items:start center;padding-top:10px}
+.stage::after{content:"";position:absolute;left:0;right:0;bottom:0;height:56px;background:linear-gradient(to top,var(--bg),transparent);z-index:7;pointer-events:none}
+.disc{width:min(112vw,60svh)}
+.rig{--w:min(64vw,250px)}
+.rig .ph{transform:none}
+.fl.sms{width:min(290px,78vw);right:auto;left:50%;margin-left:calc(min(290px,78vw)/-2);top:4%}
+.fl.sms.sm2{top:4%}
+.fl.sms.landed{transform:translateY(80px) scale(.3)}
+.step{min-height:48svh;padding-bottom:0}
+.step.long{min-height:105svh}
+.step.an{min-height:100svh}
+.st{padding:14px 4px 16px;min-height:0;position:relative;top:auto}
+.step.long .st{position:sticky;top:calc(44svh + 62px)}
+.st h2{font-size:29px}
+.st .sub{font-size:16.5px;margin-top:10px}
+.safe{font-size:15.5px;margin-top:12px}
+.chip{margin-bottom:12px}
+.beats{margin-top:14px}
+.beats li{font-size:16.5px;padding:6px 0 6px 13px}
+.fam{border-radius:30px;display:flex;flex-direction:column}
+.fam .in{order:1;width:calc(100% - 32px)}
+.scene{order:2;position:relative;width:auto;margin-top:26px}
+.op .fg{min-height:0}
+.scene img,.scene.fill img{height:clamp(220px,62vw,300px);object-fit:cover;object-position:var(--op,60%) 100%;-webkit-mask-image:none;mask-image:none}
+.scene.fill{top:auto}
+.scene.fill img{-webkit-mask-image:linear-gradient(to bottom,transparent,#000 12%);mask-image:linear-gradient(to bottom,transparent,#000 12%)}
+.fg{display:block;min-height:0}
+.ft{padding:44px 0 0}
+.sumcard{margin-top:22px;padding:16px 18px;border-width:4px;border-radius:24px}
+.sumcard .big{font-size:37px}
+.who b{font-size:16px}
+.lvh{margin-top:56px}
+.lgrid{grid-template-columns:1fr;gap:22px;margin-top:26px}
+.opts{gap:8px}
+.opt{padding:12px 16px;border-radius:18px}
+.opt b{font-size:19px}.opt span{font-size:15.5px}
+.lvp{padding:18px 20px}
+.lvt{font-size:40px}
+.sync{flex-direction:column;align-items:flex-start;gap:12px;font-size:17px;margin-top:28px}
+.sec{padding:64px 0}
+.ev .sec{padding:56px 0 86px}
+.ev .in{width:calc(100% - 32px)}
+.eg{grid-template-columns:1fr;row-gap:36px}
+.eg .ph,.bgr .ph{margin:0 auto;--w:min(205px,56vw)}
+.chart{padding:18px 14px 12px}
+.plot{height:200px}
+.bgr{grid-template-columns:1fr;row-gap:32px}
+.tour{padding:56px 0 64px}
+.tour .in{width:calc(100% - 32px)}
+.tgr{display:flex;flex-direction:column;align-items:stretch}
+.tl1{display:contents}
+.tl1 h2{order:1}.tl1 .sub{order:2}.ttabs{order:3;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-top:18px}
+.ttabs button{flex:none;font-size:15px;min-height:40px;padding:0 15px}
+.tph{order:4;--w:min(225px,60vw);margin-top:18px;align-self:center}
+.tact{order:5;min-height:150px;margin-top:14px}
+.tact button{font-size:16px;padding:9px 10px}
+.thint{order:6}
+.pgrid{grid-template-columns:1fr;row-gap:32px}
+.perm{padding:18px 18px 8px}
+.launch{margin:36px 0 14px;font-size:16.5px}
+.prgrid{grid-template-columns:1fr;gap:12px}
+.offer{font-size:15px}
+.plans{grid-template-columns:1fr;gap:12px}
+.plan{padding:18px 20px;display:grid;grid-template-columns:1fr auto;align-items:center;column-gap:12px}
+.phs{grid-column:1/-1;height:46px;margin-bottom:10px}
+.phs i{width:22px;height:44px;border-width:2.5px;border-radius:6px}
+.phs.six i{width:22px;height:44px}
+.plan b{font-size:21px}
+.pz{margin:0;grid-column:2;grid-row:2/4;flex-direction:column;align-items:flex-end;gap:0}
+.pz strong{font-size:32px}
+.fq{grid-template-columns:1fr;row-gap:24px}
+.fo{gap:10px 24px}.fo b{width:100%}
+}
+@media (prefers-reduced-motion:reduce){
+html{scroll-behavior:auto}
+*,*::before,*::after{animation:none!important;transition:none!important}
+.fan .sms{display:none}
+.link i{left:70px}
+}
+/* working copy of the app: every size is in em, 1em = 10dp on a 360dp wide screen */
+.app{position:absolute;left:0;top:0;width:360px;height:720px;transform-origin:0 0;font-size:10px;-webkit-text-size-adjust:100%;text-size-adjust:100%;line-height:1.3;color:#10241B;background:#F9FBF9;display:flex;flex-direction:column;font-family:Onest,system-ui,sans-serif;text-align:left;overflow:hidden}
+.app button{font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;text-align:left;cursor:pointer}
+.app input{font:inherit;color:inherit;border:0;background:none;width:100%;outline:0;padding:0}
+.app svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;display:block;flex:none}
+.view{flex:1;min-height:0;display:flex;flex-direction:column;animation:vIn .28s ease-out}
+@keyframes vIn{from{opacity:.3}to{opacity:1}}
+.ah{display:flex;align-items:center;gap:1.4em;height:5.6em;padding:0 1.6em;flex:none}
+.ah svg{font-size:2.3em}
+.ah b{font-size:2.2em;font-weight:600;flex:1}
+.sc{flex:1;min-height:0;overflow-y:auto;padding:0 1.6em 1.6em;scrollbar-width:none;position:relative}
+.sc::-webkit-scrollbar{display:none}
+.mo{display:flex;align-items:center;justify-content:space-between;padding:0 .8em;color:#0B5D3B;font-weight:600;font-size:1.5em;height:2.9em;flex:none}
+.mo svg{color:#10241B;font-size:1.3em}.mo svg:last-child{color:#B6C0BA}
+.cd{background:#fff;border-radius:1.6em;padding:1.6em}
+.tiles{display:flex;gap:.8em}
+.tile1{flex:1;min-width:0;border:1px solid #E1E8E2;border-radius:1.2em;padding:.8em}
+.tile1 small{display:block;font-size:1.1em}
+.tile1 b{display:block;font-size:1.62em;font-weight:600;letter-spacing:-.01em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.alloc{height:.8em;background:#DCEDE3;border-radius:.4em;overflow:hidden;display:flex;margin:1.2em 0}
+.alloc i{display:block;height:100%;transition:width .6s}
+.nrow{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #E1E8E2;padding-top:1.1em;font-size:1.25em}
+.nrow b{font-size:1.45em;font-weight:600;font-variant-numeric:tabular-nums}
+.app .trow{display:flex;justify-content:space-between;align-items:center;width:100%;margin-top:.9em;font-size:1.4em;gap:1em}
+.sw{width:3.4em;height:2em;border-radius:1em;background:#0B5D3B;position:relative;flex:none;transition:background .25s;display:block}
+.sw::after{content:"";position:absolute;width:1.5em;height:1.5em;border-radius:50%;background:#fff;top:.25em;left:1.65em;transition:left .25s}
+.sw.off{background:#B9C4BE}.sw.off::after{left:.25em}
+.dh{display:flex;justify-content:space-between;align-items:center;padding:1.4em .2em .7em;font-size:1.25em;color:#5E6E66}
+.dh span:first-child::before{content:"";display:inline-block;width:.45em;height:.45em;border-radius:50%;background:#F7B900;margin-right:.6em;vertical-align:.12em}
+.lc{background:#fff;border-radius:1.6em;overflow:hidden}
+.lw{display:grid;grid-template-rows:1fr;transition:grid-template-rows .45s cubic-bezier(.2,.8,.2,1),background 1.2s}
+.lw.new{grid-template-rows:0fr}
+.lw.flash{background:#E7F2EC}
+.lw>div{overflow:hidden;min-height:0}
+.lw+.lw .lr{border-top:1px solid #EEF2EE}
+.app .lr{display:flex;align-items:center;gap:1.2em;padding:1.2em 1.4em;width:100%}
+.tl{width:3.8em;height:3.8em;border-radius:1.1em;display:flex;align-items:center;justify-content:center;flex:none}
+.tl svg{font-size:2.2em}
+.lm{flex:1;min-width:0;display:block}
+.lm b{display:block;font-size:1.5em;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lm small{display:block;font-size:1.2em;color:#5E6E66;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tg{display:inline-block;font-style:normal;background:#DDF0E5;color:#0B5D3B;font-size:1.1em;font-weight:500;padding:.15em .7em;border-radius:1em;margin-top:.35em}
+.la{text-align:right;flex:none;display:block}
+.la strong{display:block;font-size:1.5em;font-weight:600;font-variant-numeric:tabular-nums}
+.la small{display:block;font-size:1.15em;color:#5E6E66}
+.ot{color:#B8402B}.it{color:#0E7C4F}.vt{color:#3B55D9}
+.fab{position:absolute;right:1.6em;bottom:8.2em;width:5em;height:5em;border-radius:50%;background:#E7F2EC;border:.15em solid #0B5D3B;color:#0B5D3B;display:flex;align-items:center;justify-content:center}
+.fab svg{font-size:2.2em}
+.nv{flex:none;height:7em;background:#fff;display:flex;align-items:center;position:relative;z-index:2}
+.app .nv button{flex:1;display:flex;flex-direction:column;align-items:center;gap:.2em;color:#5E6E66;position:relative}
+.nv svg{font-size:2.2em}.nv span{font-size:1.2em;white-space:nowrap}
+.app .nv .on{color:#10241B;font-weight:600}
+.nv .on::before{content:"";position:absolute;top:-.6em;width:.5em;height:.5em;border-radius:50%;background:#F7B900}
+.nv u{position:absolute;top:-.3em;left:54%;min-width:1.5em;height:1.5em;border-radius:.8em;background:#F7B900;color:#10241B;font-size:1em;font-weight:600;text-decoration:none;display:flex;align-items:center;justify-content:center;padding:0 .3em}
+.ov{position:absolute;inset:0;z-index:5;background:rgba(16,36,27,.42);display:none;align-items:flex-end}
+.ov.on{display:flex}
+.ov.mid{align-items:center;padding:1.8em}
+.sh{background:#F4F7F4;border-radius:2em 2em 0 0;padding:2em 1.8em 1.8em;width:100%;animation:shUp .28s cubic-bezier(.2,.8,.2,1);max-height:92%;overflow-y:auto;scrollbar-width:none}
+.ov.mid .sh{border-radius:2em;animation:none}
+@keyframes shUp{from{transform:translateY(30%)}to{transform:none}}
+.sh h4{font-size:2em;font-weight:500;margin:0 0 .4em}
+.sh p{font-size:1.35em;color:#46584F;margin:.35em 0}
+.sa{display:flex;justify-content:flex-end;gap:2.2em;margin-top:1.6em}
+.app .sa button{color:#0B5D3B;font-weight:600;font-size:1.4em;padding:.3em}
+.fld{display:block;border:1px solid #8A9A92;border-radius:.9em;padding:.65em 1.1em;margin-top:1em;background:#fff}
+.fld small{display:block;font-size:1.1em;color:#5E6E66}
+.app .fld input{font-size:1.5em}
+.chips{display:flex;flex-wrap:wrap;gap:.7em;margin-top:1.1em}
+.app .chips button{border:1px solid #8A9A92;border-radius:.9em;padding:.5em 1em;font-size:1.3em}
+.app .chips .on{background:#0B5D3B;color:#fff;border-color:#0B5D3B}
+.prb{display:flex;justify-content:center;align-items:center;gap:.7em;background:#0B5D3B;color:#fff;border-radius:2.4em;height:3.5em;font-size:1.4em;font-weight:600;width:100%;text-align:center}
+.app button.prb{background:#0B5D3B;color:#fff;display:flex;text-align:center}
+.prb svg{font-size:1.2em}
+.app button.olb,.olb{border:1px solid #8A9A92;border-radius:2.4em;height:3.5em;font-size:1.4em;color:#0B5D3B;font-weight:600;display:flex;align-items:center;justify-content:center;padding:0 1.3em;flex:none}
+.seg{display:flex;background:#EEF2EE;border-radius:2.4em;margin:0 1.6em;padding:.35em;flex:none}
+.app .seg button{flex:1;height:2.75em;text-align:center;border-radius:2em;font-size:1.4em;color:#5E6E66}
+.app .seg .on{background:#0B5D3B;color:#fff;font-weight:600}
+.per{flex:none;margin:.9em 1.6em 0;border:1px solid #8A9A92;border-radius:1em;height:3.6em;display:flex;align-items:center;gap:.8em;padding:0 1.2em;color:#0B5D3B}
+.per span{flex:1;font-size:1.35em;font-weight:500}.per svg{font-size:1.7em}
+.app .evtog{flex:none;display:flex;width:auto;justify-content:space-between;align-items:center;margin:.5em 1.6em .7em;font-size:1.35em}
+.cd h5{font-size:1.65em;font-weight:600;margin:0 0 .8em}
+.chp{display:flex;gap:.5em;justify-content:center;margin-bottom:1em}
+.chp span{border:1px solid #8A9A92;border-radius:.8em;padding:.3em .9em;font-size:1.25em}
+.chp .on{background:#E8F4F3;border-color:#E8F4F3;color:#183F41;font-weight:500}
+.dn{position:relative;width:17em;height:17em;margin:0 auto 1em}
+.app .dn svg{width:100%;height:100%;stroke-linecap:butt;transform:rotate(-90deg)}
+.dn div{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.dn small{font-size:1.15em;color:#2C4438}.dn b{font-size:1.95em;font-weight:600}
+.dn small.h{font-size:1em;color:#5E6E66;max-width:8em;line-height:1.2;margin-top:.2em}
+.gh{font-size:1.25em;font-weight:600;color:#5E6E66;margin:1.1em 0 .1em}
+.app .cr{display:flex;align-items:center;gap:1.1em;padding:.8em 0;width:100%}
+.cm{flex:1;min-width:0;display:block}
+.cm div{display:flex;justify-content:space-between;font-size:1.42em;font-weight:500}
+.cm small{display:block;font-size:1.15em;color:#5E6E66;margin:.1em 0 .4em}
+.cm i{display:block;height:.45em;border-radius:.3em;background:#EEF2EE;overflow:hidden}
+.cm i u{display:block;height:100%;border-radius:.3em}
+.cr>svg{font-size:1.6em;color:#10241B}
+.stp{background:repeating-linear-gradient(135deg,#8E5BC7 0 .38em,#EFE6FA .38em .62em)!important}
+.tb{height:15em;display:flex;align-items:flex-end;justify-content:space-around;border-bottom:1px solid #E1E8E2;position:relative;margin-top:.5em}
+.tb b{display:flex;flex-direction:column;justify-content:flex-end;width:15%;transform-origin:bottom;transform:scaleY(0);transition:transform .7s cubic-bezier(.2,.8,.2,1);border-radius:.6em .6em 0 0;overflow:hidden}
+.tb.go b{transform:none}
+.tb b i{display:block}
+.tb s{position:absolute;left:0;right:0;border-top:.15em dashed #5E6E66;text-decoration:none}
+.tb em{position:absolute;right:0;font-style:normal;font-size:1.1em;color:#5E6E66;background:#fff;padding:0 .3em;transform:translateY(-120%)}
+.ml{display:flex;justify-content:space-around;font-size:1.2em;color:#5E6E66;padding-top:.5em}
+.ml span{width:15%;text-align:center}.ml .on{color:#10241B;font-weight:700}
+.kv{display:flex;justify-content:space-between;font-size:1.35em;padding:.35em 0}
+.kv i{width:.8em;height:.8em;border-radius:.25em;display:inline-block;margin-right:.6em}
+.ub{margin-left:auto;background:#DDEFE5;color:#0B5D3B;border-radius:1.2em 1.2em .3em 1.2em;padding:.7em 1em;font-size:1.35em;width:max-content;max-width:90%;min-height:2.6em}
+.ans{background:#F1F5F2;border-radius:1.2em;padding:1.1em 1.2em;margin-top:.8em;font-size:1.25em;color:#5E6E66;transition:opacity .4s}
+.ans b{display:block;font-size:1.3em;color:#10241B;font-weight:600;margin-bottom:.3em}
+.ans.hide{opacity:0}
+.rsg{display:flex;gap:1em;align-items:center;padding:0 1.6em;flex:none}
+.rsg div{display:flex;flex:1;border:1px solid #8A9A92;border-radius:2em;overflow:hidden}
+.app .rsg div button{flex:1;text-align:center;font-size:1.3em;height:2.9em;white-space:nowrap}
+.app .rsg div .on{background:#E8F4F3;font-weight:500}
+.rsg>span{font-size:1.3em;color:#0B5D3B;font-weight:500}
+.rhn{display:flex;justify-content:space-between;align-items:center;padding:.7em 1.6em;font-size:1.2em;color:#5E6E66;flex:none}
+.rhn u{text-decoration:none;color:#0B5D3B;font-weight:500}
+.rc{background:#fff;border-radius:1.6em;padding:1.4em;margin-bottom:1em;transition:transform .4s,opacity .4s,max-height .4s;max-height:40em;overflow:hidden}
+.rc.gone{transform:translateX(60%);opacity:0;max-height:0;padding-block:0;margin:0}
+.rh{display:flex;gap:1em;align-items:center}
+.rh .lm b{font-size:1.45em}.rh .lm small{font-size:1.1em}
+.ed{color:#0B5D3B;font-size:1.3em;font-weight:500;display:flex;gap:.3em;align-items:center}
+.ra{font-size:1.45em;font-weight:600;margin:.7em 0;color:#B8402B}
+.tw{display:grid;grid-template-columns:1.55fr 1fr;gap:.9em}
+.tw label{display:block}
+.tw small{display:block;font-size:1.1em;color:#5E6E66;margin-bottom:.3em}
+.app .dd{display:flex;justify-content:space-between;align-items:center;width:100%;border:1px solid #8A9A92;border-radius:1em;height:3.4em;padding:0 1em;color:#0B5D3B;font-size:1.3em;font-weight:500}
+.app .dd.need{border-color:#F7B900;box-shadow:0 0 0 1px #F7B900;color:#7A5B00}
+.dd svg{font-size:1.2em}
+.rhint{font-size:1.2em;color:#7A5B00;margin:.7em 0 0}
+.rb{display:flex;gap:.8em;margin-top:1em}
+.rb .prb{flex:1}
+.rc.off .prb{opacity:.45}
+.dne{text-align:center;padding:5em 1em;color:#5E6E66}
+.dne i{width:5.4em;height:5.4em;border-radius:50%;background:#E7F2EC;color:#0B5D3B;display:flex;align-items:center;justify-content:center;margin:0 auto 1em}
+.dne i svg{font-size:2.8em}
+.dne b{display:block;font-size:1.7em;color:#10241B;font-weight:600}
+.dne span{font-size:1.3em}
+.evt{display:flex;justify-content:space-between;align-items:center;padding:0 1.6em 1em;flex:none}
+.evt>svg{font-size:2.1em;color:#5E6E66}
+.app .evt .prb{width:auto;padding:0 1.3em;height:3.1em}
+.app .ec{display:block;width:100%;background:#fff;border-radius:1.6em;padding:1.4em;margin-bottom:1em}
+.ec.new{animation:ecIn .5s cubic-bezier(.2,.8,.2,1)}
+@keyframes ecIn{from{transform:scale(.9);opacity:0}to{transform:none;opacity:1}}
+.ec>b{display:block;font-size:1.6em;font-weight:600}
+.ec>small{font-size:1.2em;color:#5E6E66}
+.ec em{font-style:normal;font-size:.92em;background:#E8F4F3;color:#183F41;padding:.15em .7em;border-radius:.8em;margin-right:.6em}
+.ec p{margin:.2em 0 0;font-size:1.3em;color:#2C4438}
+.pb{height:.65em;border-radius:.4em;background:#EEF2EE;overflow:hidden;margin:.8em 0 .6em;display:block}
+.pb i{display:block;height:100%;border-radius:.4em;transform-origin:left;animation:gw .9s cubic-bezier(.2,.8,.2,1)}
+@keyframes gw{from{transform:scaleX(0)}to{transform:none}}
+.evh{display:flex;align-items:center;gap:1em;padding:0 1.2em;flex:none}
+.evh svg{font-size:2.2em}.evh b{font-size:2em;font-weight:600}
+.evm{padding:.2em 1.6em .9em;font-size:1.2em;color:#5E6E66;flex:none}
+.ct{text-align:center;font-size:2.4em;font-weight:500}
+.dd2{display:flex;gap:.8em;margin:1em 0}
+.dd2 span{flex:1;border:1px solid #8A9A92;border-radius:1em;padding:.7em .9em;font-size:1.25em}
+.dd2 small{color:#5E6E66;margin-right:.4em;font-size:.9em}
+.bt{display:flex;justify-content:space-between;font-size:1.25em;color:#5E6E66}
+.bg{font-size:2.5em;text-align:center;font-weight:500;margin-top:.3em}
+.lft{font-size:1.5em;font-weight:600;color:#0E7C4F;margin:.1em 0 .8em}
+.br{display:flex;gap:.8em}
+.br .prb{flex:1}
+.bh{display:flex;justify-content:space-between;align-items:center;margin:1.6em 0 .4em}
+.bh b{font-size:1.5em;font-weight:600}.bh span{font-size:1.2em;color:#5E6E66}
+.bc{padding:1em 0;border-top:1px solid #E1E8E2}
+.bc div{display:flex;justify-content:space-between;align-items:center}
+.bc div.pb{display:block}
+.bc b{font-size:1.45em;font-weight:500}.bc>span,.bc div>span{font-size:1.2em;color:#5E6E66}
+.app .bc button{color:#0B5D3B;font-weight:500;font-size:1.3em}
+.bc .fx{background:#EEF2EE;border-radius:.7em;padding:.1em .7em}
+.fam2>span{font-size:1.25em;color:#2C4438}
+.fbig{font-size:3.1em;font-weight:600}
+.fsp{display:flex;gap:.25em;height:.8em;margin:1em 0}
+.fsp i{display:block;border-radius:.5em}
+.fwh{display:grid;grid-template-columns:1fr 1fr;gap:.6em}
+.fwh div{display:flex;gap:.7em;align-items:center}
+.fwh u{width:3em;height:3em;border-radius:50%;color:#fff;text-decoration:none;display:flex;align-items:center;justify-content:center;font-size:1.2em;font-weight:600;flex:none}
+.fwh span{font-size:1.15em;color:#5E6E66}.fwh b{display:block;font-size:1.13em;color:#10241B;font-weight:600}
+.fis{display:grid;grid-template-columns:1fr 1fr;gap:.8em;margin-top:1em}
+.fis div{background:#F1F5F2;border-radius:1em;padding:.8em 1em}
+.fis small{font-size:1.15em;color:#2C4438}.fis b{display:block;font-size:1.65em;font-weight:600}
+.finger{position:absolute;z-index:9;left:50%;top:60%;width:4em;height:4em;margin:-2em;border-radius:50%;background:rgba(16,36,27,.3);border:.2em solid rgba(255,255,255,.9);box-shadow:0 .2em .8em rgba(0,0,0,.3);opacity:0;transition:left .55s cubic-bezier(.3,.7,.2,1),top .55s cubic-bezier(.3,.7,.2,1),opacity .25s,transform .14s;pointer-events:none}
+.finger.on{opacity:1}
+.finger.dn2{transform:scale(.72)}
+.fsl{font-size:1.3em;color:#46584F}
+.fsb{font-size:1.15em;color:#5E6E66;margin-top:.15em}
+
+</style>
+</head>
+<body>
+
+<header class="top"><div class="in bar">
+<a class="brand" href="#top"><img src="img/icon.png" alt="">ILLU</a>
+<span class="now" id="now"></span>
+<a class="lnk" href="#auto" data-s="auto">Auto entries</a>
+<a class="lnk" href="#analysis" data-s="analysis">Analysis</a>
+<a class="lnk" href="#family" data-s="family">Family</a>
+<a class="lnk" href="#privacy" data-s="privacy">Privacy</a>
+<a class="lnk" href="#pricing" data-s="pricing">Pricing</a>
+<a class="go" data-pro-cta href="https://play.google.com/store/apps/details?id=com.moneyledger.app"><svg class="bell" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 01-3.4 0"/></svg><span data-cta-short>Pre-register</span></a>
+</div></header>
+
+<main id="top">
+<div class="stack">
+<section class="hero chap"><div class="rings"></div><div class="in"><div class="hg">
+<div class="hl">
+<h1>Your bank already texts you every expense.</h1>
+<p class="lead">ILLU adds them to your ledger, shows where the money went, and puts the whole family on one page. No account, no ads, no internet permission.</p>
+<a class="btn" data-pro-cta href="https://play.google.com/store/apps/details?id=com.moneyledger.app"><svg class="bell" aria-hidden="true" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 01-3.4 0"/></svg><span data-cta>Pre-register on Google Play</span></a>
+<p class="note" data-prelaunch>Launches 8 December, on Android.</p>
+<ul class="pillars">
+<li><a href="#auto"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>Auto entries</a></li>
+<li><a href="#analysis"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 20v-7M12 20V5M18 20v-10"/></svg>Analysis</a></li>
+<li><a href="#family"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.1-5.500 6.500-5.500s5.900 1.900 6.500 5.500M16 4.800a3.500 3.500 0 010 6.400M18 14.900c1.900.8 3.100 2.500 3.500 5.100"/></svg>Family</a></li>
+</ul>
+</div>
+<div class="fan" id="fan">
+<div class="sms"><em>AD-MYBANK</em>Rs.349.00 debited from A/c XX4821 on 29-10-26 to VPA sharmakirana@upi.</div>
+<div class="ph p1 still" role="img" aria-label="ILLU Analysis screen with a spending chart"><div class="scr" id="h1"></div></div>
+<div class="ph p3 still" role="img" aria-label="ILLU Family view: ₹89,023 spent, split between You and Ravi"><div class="scr" id="h3"></div></div>
+<div class="ph p2 still" role="img" aria-label="ILLU Ledger screen for October"><div class="scr" id="h2"></div></div>
+</div>
+</div></div></section>
+
+<section class="chap c-core">
+<section class="fam op" style="background:#FCF8EF" id="auto" data-s="auto">
+<div class="scene " style="--op:62%"><img src="img/open-ledger.jpg" alt="Illustration of a woman smiling at her phone at the kitchen table, with a cup of chai"></div>
+<div class="in fg"><div class="ft">
+<span class="chip">Your ledger</span>
+<h2>Every payment, written down.</h2>
+<p class="sub">Your bank texts you each time money moves. ILLU turns those messages into your ledger and shows you where it all went.</p>
+<div class="sumcard" data-v>
+<small>Added to your ledger in October</small>
+<div class="big">46 entries</div>
+<div class="split"><i class="v" style="--w:93%;background:#0B5D3B"></i><i class="v" style="--w:7%;background:#F7B900"></i></div>
+<div class="who"><div><u style="background:#0B5D3B">43</u><span>Went straight in<b>No typing</b></span></div><div><u style="background:#D9A400">3</u><span>Waited for you<b>One tap each</b></span></div></div>
+</div>
+</div></div>
+</section>
+<div class="in story" id="story">
+<div class="stage" id="stage">
+<div class="disc" id="disc"></div>
+<div class="rig">
+<i class="pulse p-a"></i><i class="pulse p-b"></i>
+<div class="ph" id="sp" role="img" aria-label="ILLU on a phone, changing as you read"><div class="scr">
+<div class="layer on" data-k="ledger" id="l-ledger"></div>
+<div class="layer" data-k="review" id="l-review"></div>
+<div class="layer" data-k="analysis" id="l-analysis"></div>
+</div></div>
+<div class="fl sms sm1" id="s1"><em>AD-MYBANK</em>Rs.349.00 debited from A/c XX4821 on 29-10-26 to VPA sharmakirana@upi. Ref 431266190.</div>
+<div class="fl sms sm2" id="s2"><em>AD-MYBANK</em>Rs.30,000.00 credited to A/c XX4821 on 29-10-26. SALARY OCT ACME LTD.</div>
+</div>
+</div>
+<div class="steps">
+<article class="step long" data-i="0" data-s="auto"><div class="st">
+<span class="chip">Ledger</span>
+<h2>Your bank texts. ILLU writes it down.</h2>
+<p class="sub">Debit, credit, UPI and card alerts become entries, with the payee, amount and category filled in. OTPs and offers are ignored.</p>
+<p class="safe"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11h14v10H5zM8 11V7a4 4 0 018 0v4"/></svg>Read on your phone. Never sent anywhere.</p>
+</div></article>
+<article class="step long" data-i="1" data-s="auto"><div class="st">
+<span class="chip">Review</span>
+<h2>Clear ones go straight in. Unsure ones wait for you.</h2>
+<p class="sub">Pick the category once and approve. ILLU remembers, so the same payee is sorted next time.</p>
+</div></article>
+<article class="step long an" data-i="2" data-s="analysis" id="analysis"><div class="st">
+<span class="chip">Analysis</span>
+<h2>See where the money went.</h2>
+<ul class="beats" id="beats">
+<li class="on">The whole month in one chart.</li>
+<li>Trips and festivals, counted on their own.</li>
+<li>Then every category, biggest first.</li>
+</ul>
+</div></article>
+<article class="step" data-i="3" data-s="analysis"><div class="st">
+<h2>Know when a month is unusual.</h2>
+<p class="sub">Daily, weekly or monthly, against your own average. The Goa trip sits on top of October, so you can see why it’s high.</p>
+</div></article>
+<article class="step" data-i="4" data-s="analysis"><div class="st">
+<span class="protag"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11h14v10H5zM8 11V7a4 4 0 018 0v4"/></svg>Pro</span>
+<h2>Ask the way you’d ask a person.</h2>
+<p class="sub">Type a question about your spending and get the answer straight away. It’s worked out on your phone.</p>
+</div></article>
+</div>
+</div></section>
+
+<div class="chap c-fam">
+<section class="fam" id="family" data-s="family">
+<div class="scene" id="scene"><img src="img/couple.jpg" alt="Illustration of a couple smiling at a phone together on their sofa"></div>
+<div class="in fg">
+<div class="ft">
+<span class="chip">Family</span>
+<h2>Two phones. One household.</h2>
+<p class="sub">Each of you keeps your own ledger. ILLU brings them together, so you can see what the house spent and who spent on what.</p>
+<div class="sumcard" data-v>
+<small>Family spent, 1–29 Oct</small>
+<div class="big" data-count="89023">₹89,023</div>
+<div class="split"><i class="me"></i><i class="rv"></i></div>
+<div class="who"><div><u style="background:#0B5D3B">A</u><span>You, 69%<b>₹61,523</b></span></div><div><u style="background:#A97BFF">R</u><span>Ravi, 31%<b>₹27,500</b></span></div></div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="in lvh" id="share">
+<h2>You decide what each person sees.</h2>
+<div class="lgrid">
+<div>
+<div class="opts" id="opts">
+<button class="opt on" data-l="0"><b>Totals only</b><span>How much you spent. Nothing else.</span></button>
+<button class="opt" data-l="1"><b>Category totals</b><span>How much on rent, travel or shopping. Not where.</span></button>
+<button class="opt" data-l="2"><b>Every entry</b><span>Each payment, just like your own ledger.</span></button>
+</div>
+<p class="nvr"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11h14v10H5zM8 11V7a4 4 0 018 0v4"/></svg>Account names and balances are never shared.</p>
+</div>
+<div class="lvp" id="lvp" data-l="0">
+<small>What Ravi sees</small>
+<div class="lvt">₹61,523</div>
+<div class="lvs">Asha spent in October</div>
+<div class="lvc"><div><span>Rent</span><b>₹22,000</b></div><div class="lve"><span>Landlord, 2 Oct</span><span>₹22,000</span></div></div>
+<div class="lvc"><div><span>Travel</span><b>₹14,800</b></div><div class="lve"><span>Goa flights, 3 Oct</span><span>₹14,800</span></div></div>
+<div class="lvc"><div><span>Shopping</span><b>₹6,500</b></div><div class="lve"><span>Myntra, 14 Oct</span><span>₹2,400</span></div><div class="lve"><span>Amazon, 9 Oct</span><span>₹1,299</span></div></div>
+<div class="lvc"><div><span>Everything else</span><b>₹18,223</b></div><div class="lve"><span>Mutual fund SIP, 5 Oct</span><span>₹10,000</span></div></div>
+</div>
+</div>
+<div class="sync"><div class="link" aria-hidden="true"><u style="background:#0B5D3B">A</u><i></i><u style="background:#A97BFF">R</u></div><span>At home, phones sync over Bluetooth. Living apart, you send a locked file on WhatsApp that only ILLU can open.</span></div>
+</section>
+
+</div>
+
+<div class="ev chap" data-s="" id="events">
+<section class="fam op" style="background:#FAF5EA">
+<div class="scene fill" style="--op:66%"><img src="img/open-events.jpg" alt="Illustration of a family of four arriving at a beach with suitcases, under palm trees"></div>
+<div class="in fg"><div class="ft">
+<span class="chip">Events</span>
+<h2>A trip shows up as a trip.</h2>
+<p class="sub">Holidays, weddings and festivals cost more than a normal month. Give each one an event, and it’s tracked apart from your everyday spending.</p>
+<div class="sumcard" data-v>
+<small>Goa trip, 03–05 Oct</small>
+<div class="big" data-count="23850">₹23,850</div>
+<div class="split"><i class="v" style="--w:68%;background:#0B5D3B"></i><i class="v" style="--w:32%;background:#A97BFF"></i></div>
+<div class="who"><div><u style="background:#0B5D3B">A</u><span>You, 68%<b>₹16,250</b></span></div><div><u style="background:#A97BFF">R</u><span>Ravi, 32%<b>₹7,600</b></span></div></div>
+</div>
+</div></div>
+</section>
+<div class="sec"><div class="in">
+<div class="eg">
+<div class="ph still" role="img" aria-label="ILLU Events screen: creating a shared event and opening a Goa trip"><div class="scr" id="evp"></div></div>
+<div>
+<h2 class="h2x">Create it once. Everyone adds to it.</h2>
+<ol class="esteps">
+<li><i>1</i><b>Create the event</b><span>Name it, pick the dates and turn on Share with family.</span></li>
+<li><i>2</i><b>Everyone tags their spending</b><span>The event reaches your family on the next sync. Payments made during those dates are suggested for it.</span></li>
+<li><i>3</i><b>See it as one family total</b><span>Family Analysis shows the trip as one item, with who spent what.</span></li>
+</ol>
+</div>
+</div>
+<div class="chart" data-v>
+<h3>It stays visible on top of the month</h3>
+<div class="leg"><span><i class="cme"></i>You</span><span><i class="crv"></i>Ravi</span><span><i class="cst"></i>Goa trip</span></div>
+<div class="plot">
+<div class="cbar" style="--h:55%;--n:0;opacity:.6"><span class="crv" style="height:40%"></span><span class="cme" style="flex:1"></span></div>
+<div class="cbar" style="--h:50%;--n:1;opacity:.6"><span class="crv" style="height:44%"></span><span class="cme" style="flex:1"></span></div>
+<div class="cbar" style="--h:58%;--n:2;opacity:.6"><span class="crv" style="height:36%"></span><span class="cme" style="flex:1"></span></div>
+<div class="cbar" style="--h:48%;--n:3;opacity:.6"><span class="crv" style="height:48%"></span><span class="cme" style="flex:1"></span></div>
+<div class="cbar" style="--h:96%;--n:4"><span class="cst grow" style="height:44%"></span><span class="crv" style="height:24%"></span><span class="cme" style="flex:1"></span></div>
+<div class="cbar" style="--h:42%;--n:5;opacity:.6"><span class="crv" style="height:34%"></span><span class="cme" style="flex:1"></span></div>
+</div>
+<div class="ms"><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span><b>Oct</b></span><span>Nov</span></div>
+</div>
+</div></div></div>
+
+<section class="sec chap c-bud" id="budgets" data-s="">
+<section class="fam op" style="background:#FDF8EF">
+<div class="scene " style="--op:100%"><img src="img/open-budget.jpg" alt="Illustration of a couple planning together over a notebook, with coffee and a small stack of coins"></div>
+<div class="in fg"><div class="ft">
+<span class="chip">Budgets</span>
+<h2>One number for the month.</h2>
+<p class="sub">Decide what you want to spend. ILLU keeps the rest of your income free to invest and save.</p>
+<div class="sumcard" data-v>
+<small>October budget</small>
+<div class="big">₹8,477 left</div>
+<div class="split"><i class="v" style="--w:88%;background:#946200"></i><i class="v" style="--w:12%;background:#DCE7E0"></i></div>
+<div class="who"><div><u style="background:#946200">₹</u><span>Spent<b>₹61,523</b></span></div><div><u style="background:#0B5D3B">₹</u><span>Budget<b>₹70,000</b></span></div></div>
+</div>
+</div></div>
+</section>
+<div class="in">
+<div class="bgr">
+<div class="ph still" role="img" aria-label="ILLU Budget screen for October"><div class="scr" id="bdp"></div></div>
+<div>
+<h2 class="h2x">See what’s left as each payment comes in.</h2>
+<ul class="blist" id="blist">
+<li><button class="on" data-i="0"><b>Limits only where you want them</b><span>Add one for shopping or eating out, and leave the rest alone.</span></button></li>
+<li><button data-i="1"><b>Let the Budget assistant suggest one</b><span>Tell it your income and what you want to invest and save. It suggests a budget from your own spending, and fixed costs like rent are never cut.</span></button></li>
+<li><button data-i="2"><b>One budget for the family</b><span>Each person sets a budget on their own phone. After you sync, ILLU adds them together, so you can see what the house has left.</span></button></li>
+</ul>
+</div>
+</div>
+</div></section>
+
+<section class="tour chap" id="tour" data-s=""><div class="in"><div class="tgr">
+<div class="tl1">
+<h2>Have a look around.</h2>
+<p class="sub">Swipe the phone or pick a screen, and watch what you can do there.</p>
+<div class="ttabs" id="ttabs"></div>
+<ul class="tact" id="tact"></ul>
+</div>
+<div class="ph tph" id="tph" role="img" aria-label="Short demos of ILLU, playing on a phone"><div class="scr" id="tourp"></div></div>
+</div></div></section>
+</div>
+
+<section class="priv" id="privacy" data-s="privacy"><div class="ringsb"></div><div class="sec"><div class="in"><div class="pgrid">
+<div>
+<h2>ILLU can’t send your data anywhere.</h2>
+<p>The app has no internet permission. Your messages and ledger stay on your phone, encrypted.</p>
+<p class="sm">Purchases go through the Play Store app. Family files leave your phone only when you send them.</p>
+<a href="https://stsbharadwaj.github.io/illu-privacy/">Read the privacy policy</a>
+</div>
+<div class="perm" data-v><h3>What ILLU asks your phone for</h3>
+<div class="pr-r" style="--n:0"><span>SMS</span><small>To read bank alerts</small></div>
+<div class="pr-r" style="--n:1"><span>Bluetooth</span><small>To sync family at home</small></div>
+<div class="pr-r" style="--n:2"><span>Microphone</span><small>Only if you use voice</small></div>
+<div class="pr-r" style="--n:3"><span>Notifications</span><small>For your reminders</small></div>
+<div class="noask"><h3>What ILLU doesn’t ask for</h3><div class="ncs">
+<div class="nc"><svg aria-hidden="true" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 4 6 4 9s-1 6-4 9c-3-3-4-6-4-9s1-6 4-9M4 4l16 16"/></svg>Internet</div>
+<div class="nc"><svg aria-hidden="true" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c.8-4.500 3.800-7 8-7s7.200 2.500 8 7M4 4l16 16"/></svg>Contacts</div>
+<div class="nc"><svg aria-hidden="true" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-6.500 7-12a7 7 0 10-14 0c0 5.500 7 12 7 12zM12 12.500a2.500 2.500 0 100-5 2.500 2.500 0 000 5M4 4l16 16"/></svg>Location</div>
+</div></div>
+<div class="chk"><b>Check it yourself</b><span>On your phone, open ILLU’s <em>App info</em>, then <em>Permissions</em>, then the <em>⋮</em> menu, then <em>All permissions</em>. Internet isn’t on the list.</span></div>
+</div>
+</div></div></div></section>
+
+<section class="sec" id="pricing" data-s="pricing"><div class="in">
+<span class="chip">Is it free?</span>
+<h2 id="pr-h2">Free to use, forever. Pro is a one-time payment, from ₹799.</h2>
+<p class="sub">Every Pro feature is free for your first 30 days. No card needed.</p>
+<div id="pr-offer"></div>
+<span class="chip" style="margin-top:52px">What do I get if I pay?</span>
+<div class="prgrid" id="pr-cards"></div>
+<p class="pralso">Also four more themes.</p>
+<div class="prfree">
+<b>Everything else stays free for life.</b>
+<button class="prfree-tog" id="prFreeTog" aria-expanded="false">See what’s free<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+<p class="prfree-list" id="prFreeList" hidden>Bank SMS to ledger, approving each one in Review · Budgets and the Budget assistant · Analysis · Voice entry and the home screen widget · Backups, export and App lock · Sharing totals with one person · Updates from your family, always received.</p>
+</div>
+<span class="chip" style="margin-top:52px">Which one do I buy?</span>
+<div class="plans" id="pr-plans"></div>
+<p class="prwk" id="pr-launchnote" hidden>These are the launch week prices, 8–14 December.</p>
+<p class="prpay" id="pr-pay">Pay once. Not ₹799 a year.</p>
+<div class="prc"><a class="btn" data-pro-cta href="https://play.google.com/store/apps/details?id=com.moneyledger.app"><span data-cta>Pre-register on Google Play</span></a></div>
+<p class="prup">Only one person pays. Pro reaches the others’ phones through the family update. Start with Just me and upgrade later by paying the difference.</p>
+<small class="prfinal">The price on Google Play is the final price.</small>
+</div></section>
+
+<dialog id="bellDlg" class="bell-dlg">
+<svg aria-hidden="true" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 01-3.4 0"/></svg>
+<h3>Ding. Thanks for ringing.</h3>
+<p>Pre-registration on Google Play opens around 19 November. Come back then and tap Pre-register, and Google Play will tell you on launch day, 8 December.</p>
+<p class="bell-mu">We don’t ask for your email. Each ring is only counted.</p>
+<button class="btn" data-bell-close>Back to the site</button>
+</dialog>
+
+<section class="sec" style="padding-top:0"><div class="in fq">
+<h2>Questions</h2>
+<div>
+<details open><summary>Why does ILLU need SMS access?<u></u></summary><p>Reading bank alerts is how payments reach your ledger without typing. Messages are read on your phone. OTPs and offers are ignored.</p></details>
+<details><summary>Which banks does it work with?<u></u></summary><p>ILLU reads debit, credit, UPI, card and bank-transfer alerts from Indian banks. If one is missed, paste the message into ILLU.</p></details>
+<details><summary>Can my family see my accounts?<u></u></summary><p>No. Account names and balances are never shared. You choose for each person whether they see totals, category totals or every entry.</p></details>
+<details><summary>What happens after the 30 days?<u></u></summary><p>Pro features lock by themselves and nothing is charged. Everything you made stays, but nothing new can be added to it without Pro. If you share with more than one person, you pick one to keep sharing totals with. You keep receiving updates from everyone.</p></details>
+<details><summary>Does my family need to pay?<u></u></summary><p>No. One person buys Me + partner or Whole family, and Pro reaches the other phones through the family update. No codes.</p></details>
+<details><summary>Can I upgrade later?<u></u></summary><p>Yes. Move from Just me to a bigger plan any time by paying the difference.</p></details>
+<details><summary>What happens if I change phones?<u></u></summary><p>Make an encrypted backup with a password you choose, then restore it on the new phone. ILLU can’t recover a forgotten password. Pro comes back through your Google Play account.</p></details>
+<details><summary>Can I get a refund?<u></u></summary><p>Payments go through Google Play, so refunds are handled by Google Play under its refund rules.</p></details>
+<details><summary>Is there an iPhone version?<u></u></summary><p>Not at the moment. ILLU is for Android.</p></details>
+</div>
+</div></section>
+</main>
+
+<footer><div class="in fo"><b>ILLU</b><a href="https://illuapp.in/privacy">Privacy policy</a><span>illu.app.dev@gmail.com</span><span>© 2026 ILLU</span></div></footer>
+
+<script>/* A small working copy of ILLU for the website. Sample data only. */
+(function(){
+var IC={menu:'M4 7h16M4 12h16M4 17h16',search:'M11 4a7 7 0 100 14 7 7 0 000-14zM20 20l-4-4',ledger:'M6 3h12v18H6zM9 8h6M9 12h6M9 16h4',review:'M21 12a9 9 0 11-18 0 9 9 0 0118 0zM8 12l3 3 5-6',analysis:'M6 20v-7M12 20V5M18 20v-10',events:'M4 6h16v15H4zM4 10h16M8 3v4M16 3v4M8 15h3M13 15h3',budget:'M4 7h16v13H4zM4 7l12-4v4M15 13.5h.01',cart:'M3 4h2.5l2.2 11h10.3l2-8H6.5M9.5 20h.01M17 20h.01',fork:'M7 3v18M4 3v5a3 3 0 006 0V3M17 21v-7M17 14c-2 0-3-2-3-5.5S15.5 3 17 3z',bag:'M6 8h12l1 13H5zM9 8V6a3 3 0 016 0v2',home:'M3 11l9-7 9 7M6 10v10h12V10',trend:'M4 16l5-5 4 3 7-8M15 6h5v5',plane:'M3 13l18-9-6 17-3-7z',bank:'M3 10l9-6 9 6zM6 10v8M10 10v8M14 10v8M18 10v8M3 21h18',dots:'M6 12h.01M12 12h.01M18 12h.01',spark:'M12 4l1.8 5.2L19 11l-5.2 1.8L12 18l-1.8-5.2L5 11l5.2-1.8z',r:'M9 5l7 7-7 7',l:'M15 5l-7 7 7 7',d:'M6 9l6 6 6-6',back:'M19 12H5M11 6l-6 6 6 6',info:'M21 12a9 9 0 11-18 0 9 9 0 0118 0zM12 11v5M12 8h.01',plus:'M12 5v14M5 12h14',check:'M5 12l5 5L20 7',cal:'M4 6h16v15H4zM4 10h16M8 3v4M16 3v4',pen:'M4 20l1-5L16 4l4 4L9 19z'};
+function ic(n){return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="'+IC[n]+'"/></svg>';}
+function inr(n){n=Math.round(n);var neg=n<0,s=String(Math.abs(n));if(s.length>3){var l=s.slice(-3);s=s.slice(0,-3).replace(/\B(?=(\d{2})+(?!\d))/g,',')+','+l;}return (neg?'−':'')+'₹'+s;}
+var CAT={'Groceries':['cart','#FFF3E0','#A86B12'],'Eating out':['fork','#E8ECFF','#3B55D9'],'Shopping':['bag','#E0F4F5','#0B7F88'],'Rent':['home','#E8ECFF','#3B55D9'],'Investments':['trend','#E0F4F5','#0B7F88'],'Travel':['plane','#FDE7EC','#A13A55'],'Income':['bank','#E7F2EC','#0B5D3B'],'Other':['dots','#EEF2EE','#5E6E66'],'Goa trip':['plane','#EFE6FA','#7A47B5']};
+function tile(c){var t=CAT[c]||CAT.Other;return '<i class="tl" style="background:'+t[1]+';color:'+t[2]+'">'+ic(t[0])+'</i>';}
+var MIX=[['Goa trip',16250,'#8E5BC7',1],['Rent',22000,'#5B7CFF'],['Investments',10000,'#0BB8C4'],['Shopping',6500,'#FFB03B'],['Groceries',3161,'#56C478'],['Eating out',1612,'#A97BFF'],['Other',2000,'#AEB9B3']];
+var ENTRIES={'Goa trip':[['Goa flights','3 Oct',14800],['Beach shack','4 Oct',1450]],'Rent':[['Landlord','2 Oct',22000]],'Investments':[['Mutual fund SIP','5 Oct',10000]],'Shopping':[['Decathlon','21 Oct',2801],['Myntra','14 Oct',2400],['Amazon','9 Oct',1299]],'Groceries':[['Big Basket','18 Oct',2031],['Zepto','Today',781],['Sharma Kirana','Today',349]],'Eating out':[['Anand Sweets','Today',1200],['Swiggy','Today',412]],'Other':[['Petrol','12 Oct',2000]]};
+function seed(story){return {
+ led:{counted:true,exp:story?61174:61523,inc:story?65000:95000,inv:10000,
+  today:(story?[]:[{id:'sal',t:'Salary',c:'Income',sub:'Income · HDFC ··1234',amt:30000,k:'in',tm:'9:02 AM'},{id:'sk',t:'Sharma Kirana',c:'Groceries',sub:'Groceries · HDFC ··1234',amt:349,k:'out',tm:'8:40 AM'}]).concat([{id:'swiggy',t:'Swiggy',c:'Eating out',sub:'Eating out · HDFC ··1234',amt:412,k:'out',tm:'2:52 PM'},{id:'zepto',t:'Zepto',c:'Groceries',sub:'Groceries · HDFC ··1234',amt:781,k:'out',tm:'1:22 PM'},{id:'anand',t:'Anand Sweets',c:'Eating out',sub:'Eating out · HDFC ··1234',amt:1200,k:'out',tm:'11:15 AM'}]),
+  yest:[{id:'sip',t:'Mutual fund SIP',c:'Investments',sub:'Investments · HDFC ··1234',amt:10000,k:'inv',tm:'Invested'},{id:'amz',t:'Amazon',c:'Shopping',sub:'Shopping · Card ··7702',amt:1299,k:'out',tm:'7:48 PM'}]},
+ rev:{seg:'to',rows:[{id:'rk',t:'RK Enterprises',when:'28 Oct 2026 · 21:09 · Card ··7702',amt:1200,cat:null,mode:'Card'}],auto:[{t:'Sharma Kirana',c:'Groceries',amt:349},{t:'Swiggy',c:'Eating out',amt:412},{t:'Zepto',c:'Groceries',amt:781}]},
+ an:{inc:true,fam:false},
+ ev:{open:null,list:[{id:'goa',name:'Goa trip',when:'03–05 Oct 2026 · past',spent:23850,bud:25000,col:'#946200'},{id:'mom',name:'Mom’s birthday',when:'10 Sep 2026 · past',spent:5000,bud:8000,col:'#0B5D3B'}]},
+ bud:{total:65000,spent:61523,shop:0,fam:false}
+};}
+function money(r){return r.k==='in'?'+'+inr(r.amt):inr(r.amt);}
+function rowH(r,isNew){var cls=r.k==='in'?'it':r.k==='inv'?'vt':'ot';return '<div class="lw'+(isNew?' new':'')+'" data-row="'+r.id+'"><div><button class="lr" data-a="entry" data-v="'+r.id+'" data-id="'+r.id+'">'+tile(r.c)+'<span class="lm"><b>'+r.t+'</b><small>'+r.sub+'</small>'+(r.auto?'<em class="tg">Added for you</em>':'')+'</span><span class="la"><strong class="'+cls+'">'+money(r)+'</strong><small>'+r.tm+'</small></span></button></div></div>';}
+var S={};
+S.ledger=function(a){var L=a.s.led;return '<div class="ah">'+ic('menu')+'<b>Ledger</b>'+ic('search')+'</div><div class="sc" data-sc><div class="mo">'+ic('l')+'<span>October 2026</span>'+ic('r')+'</div><div class="cd"><div class="tiles"><div class="tile1"><small class="ot">Expenses</small><b data-l="exp"></b></div><div class="tile1"><small class="it">Income</small><b data-l="inc"></b></div><div class="tile1"><small class="vt">Investments</small><b data-l="inv"></b></div></div><div class="alloc"><i data-l="be" style="background:#B8402B"></i><i data-l="bi" style="background:#3B55D9"></i></div><div class="nrow"><span data-l="nl"></span><b data-l="net"></b></div><button class="trow" data-a="tog"><span>Count investments as spending</span><i class="sw'+(L.counted?'':' off')+'" data-l="sw"></i></button></div><div class="dh"><span>Today</span><span data-l="tot"></span></div><div class="lc" data-l="tod">'+L.today.map(function(r){return rowH(r);}).join('')+'</div><div class="dh"><span>Yesterday</span></div><div class="lc">'+L.yest.map(function(r){return rowH(r);}).join('')+'</div></div><i class="fab">'+ic('plus')+'</i>';};
+S.review=function(a){var R=a.s.rev,n=R.rows.length,body;
+ if(R.seg==='auto') body='<div class="lc">'+R.auto.map(function(r){return '<div class="lw"><div><div class="lr">'+tile(r.c)+'<span class="lm"><b>'+r.t+'</b><small>'+r.c+'</small></span><span class="la"><strong class="ot">'+inr(r.amt)+'</strong></span></div></div></div>';}).join('')+'</div>';
+ else if(!n) body='<div class="dne"><i>'+ic('check')+'</i><b>All caught up</b><span>'+(R.note||'New payments will wait here.')+'</span></div>';
+ else body=R.rows.map(function(r){return '<div class="rc'+(r.cat?'':' off')+'" data-r="'+r.id+'"><div class="rh">'+tile(r.cat||'Other')+'<span class="lm"><b>'+r.t+'</b><small>'+r.when+'</small></span><span class="ed">'+ic('pen')+'Edit</span></div><div class="ra">'+inr(r.amt)+'</div><div class="tw"><label><small>Category</small><button class="dd'+(r.cat?'':' need')+'" data-a="rcat" data-v="'+r.id+'"><span>'+(r.cat||'Pick one')+'</span>'+ic('d')+'</button></label><label><small>Paid by</small><span class="dd"><span>'+r.mode+'</span>'+ic('d')+'</span></label></div>'+(r.cat?'':'<p class="rhint">ILLU couldn’t tell the category. Pick it so it learns.</p>')+'<div class="rb"><span class="olb">Skip</span><button class="prb" data-a="rok" data-v="'+r.id+'">Approve</button></div></div>';}).join('');
+ return '<div class="ah">'+ic('menu')+'<b>Review</b></div><div class="rsg"><div><button class="'+(R.seg==='to'?'on':'')+'" data-a="rseg" data-v="to">To review · '+n+'</button><button class="'+(R.seg==='auto'?'on':'')+'" data-a="rseg" data-v="auto">Auto-added</button></div><span>Select</span></div><div class="rhn"><span>Check each one before it goes to the Ledger</span><u>Paste SMS</u></div><div class="sc" data-sc>'+body+'</div>';};
+function donut(a){var inc=a.s.an.inc,m=MIX.filter(function(x){return inc||!x[3];}),tot=m.reduce(function(s,x){return s+x[1];},0),off=0,id='st'+a.uid,out='<div class="dn"><svg viewBox="0 0 100 100"><defs><pattern id="'+id+'" width="3.6" height="3.6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="3.6" height="3.6" fill="#EFE6FA" stroke="none"/><rect width="2.2" height="3.6" fill="#8E5BC7" stroke="none"/></pattern></defs>';
+ m.forEach(function(x){var p=x[1]/tot*100;out+='<circle cx="50" cy="50" r="40" fill="none" stroke-width="13" pathLength="100" stroke="'+(x[3]?'url(#'+id+')':x[2])+'" stroke-dasharray="'+Math.max(0,p-.6)+' '+(100-p+.6)+'" stroke-dashoffset="'+(-off)+'"/>';off+=p;});
+ return out+'</svg><div><small>Total spending</small><b>'+inr(tot)+'</b><small class="h">Tap a category to see it</small></div></div>';}
+function catRow(x,tot,mx){var p=x[1]/tot*100;return '<button class="cr" data-a="acat" data-v="'+x[0]+'">'+tile(x[0])+'<span class="cm"><div><span>'+x[0]+'</span><span>'+inr(x[1])+'</span></div><small>'+(p<10?p.toFixed(1):Math.round(p))+'% of spending</small><i><u class="'+(x[3]?'stp':'')+'" style="width:'+(x[1]/mx*100)+'%;background:'+x[2]+'"></u></i></span>'+ic('r')+'</button>';}
+S.analysis=function(a){var A=a.s.an,head='<div class="ah">'+ic('menu')+'<b>Analysis</b></div><div class="seg"><button class="'+(A.fam?'':'on')+'" data-a="afam" data-v="0">Personal</button><button class="'+(A.fam?'on':'')+'" data-a="afam" data-v="1">Family</button></div><div class="per">'+ic('cal')+'<span>This month · 1–29 Oct</span>'+ic('d')+'</div>';
+ if(A.fam) return head+'<div class="sc" data-sc style="padding-top:1em"><div class="cd fam2"><span>Family spent · 1–29 Oct</span><div class="fbig">₹89,023</div><div class="fsp"><i style="width:69%;background:#0B5D3B"></i><i style="width:31%;background:#A97BFF"></i></div><div class="fwh"><div><u style="background:#0B5D3B">A</u><span>You · 69%<b>₹61,523</b></span></div><div><u style="background:#A97BFF">R</u><span>Ravi · 31%<b>₹27,500</b></span></div></div><div class="fis"><div><small>Income</small><b class="it">₹95,000</b></div><div><small>Saved</small><b>₹5,977 · 6%</b></div></div></div><div class="cd" style="margin-top:1em"><h5>Who spent on what</h5>'+[['Rent','You ₹22,000'],['Goa trip','You ₹16,250 · Ravi ₹7,600'],['Groceries','You ₹3,161 · Ravi ₹9,400']].map(function(r){return '<div class="cr">'+tile(r[0])+'<span class="cm"><div><span>'+r[0]+'</span></div><small style="margin:0">'+r[1]+'</small></span></div>';}).join('')+'</div></div>';
+ var m=MIX.filter(function(x){return A.inc||!x[3];}),tot=m.reduce(function(s,x){return s+x[1];},0),cats=m.filter(function(x){return !x[3];}).sort(function(p,q){return q[1]-p[1];}),evs=m.filter(function(x){return x[3];}),mx=Math.max.apply(null,m.map(function(x){return x[1];}));
+ return head+'<button class="evtog" data-a="ainc"><span>Include events</span><i class="sw'+(A.inc?'':' off')+'"></i></button><div class="sc" data-sc><div class="cd"><h5>Spending mix</h5><div class="chp"><span class="on">Expenses</span><span>Income</span><span>Investments</span></div>'+donut(a)+'<div data-an="ev">'+(evs.length?'<div class="gh">Events</div>'+evs.map(function(x){return catRow(x,tot,mx);}).join(''):'')+'</div><div class="gh" data-an="cat">Categories</div>'+cats.map(function(x){return catRow(x,tot,mx);}).join('')+'<span data-an="catend"></span></div><div class="cd" data-an="trend" style="margin-top:1em"><h5>Spending trend</h5><div class="chp"><span>Daily</span><span>Weekly</span><span class="on">Monthly</span></div><div class="tb'+(a.o.trendOff?'':' go')+'" data-an="bars"><s style="bottom:58%"></s><em style="bottom:58%">avg ₹47.3k</em>'+[[56,0],[54,0],[64,0],[56,A.inc?20:0]].map(function(h,i){return '<b style="transition-delay:'+(i*90)+'ms;height:'+(h[0]+h[1])+'%">'+(h[1]?'<i class="stp" style="height:'+(h[1]/(h[0]+h[1])*100)+'%"></i>':'')+'<i style="flex:1;background:'+(i===3?'#0B5D3B':'#8FB8A3')+'"></i></b>';}).join('')+'</div><div class="ml"><span>Jul</span><span>Aug</span><span>Sep</span><span class="on">Oct</span></div><div style="margin-top:.8em"><div class="kv"><span><i style="background:#0B5D3B"></i>Everyday</span><span>₹45,273</span></div>'+(A.inc?'<div class="kv"><span><i class="stp"></i>Goa trip</span><span>₹16,250</span></div>':'')+'</div></div><div class="cd" data-an="ask" style="margin-top:1em"><h5>Ask about your spending</h5><div class="ub" data-an="q">'+(a.o.askOff?'':'How much did I spend on Swiggy?')+'</div><div class="ans'+(a.o.askOff?' hide':'')+'" data-an="a"><b>You spent ₹10,456 on Swiggy since Jul 2026</b>4 payments · about ₹2,614 a month</div></div></div>';};
+S.events=function(a){var E=a.s.ev;
+ if(E.open){var v=E.list.filter(function(x){return x.id===E.open;})[0];return '<div class="ah">'+ic('menu')+'<b>Events</b></div><div class="evh"><button data-a="evback" aria-label="Back">'+ic('back')+'</button><b>'+v.name+'</b></div><div class="evm">'+v.when+' · Shared</div><div class="sc" data-sc><div class="cd"><div class="ct">'+inr(v.spent)+'</div><div class="pb"><i style="width:'+Math.min(100,v.spent/Math.max(v.bud,1)*100)+'%;background:'+v.col+'"></i></div><div style="font-size:1.35em">Budget '+inr(v.bud)+' · '+inr(v.bud-v.spent)+' left</div></div><div class="dd2"><span><small>Whose</small>Together</span><span><small>Group</small>Category</span></div>'+[['Travel','85% · 3 entries · You ₹14,800 · Ravi ₹5,400',20200,85],['Eating out','15% · 2 entries · You ₹1,450 · Ravi ₹2,200',3650,15]].map(function(r){return '<div class="ec"><div class="rh">'+tile(r[0])+'<span class="lm"><b>'+r[0]+'</b><small style="white-space:normal">'+r[1]+'</small></span><span class="la"><strong>'+inr(r[2])+'</strong></span></div><div class="pb"><i style="width:'+r[3]+'%;background:#0B5D3B"></i></div></div>';}).join('')+'</div>';}
+ return '<div class="ah">'+ic('menu')+'<b>Events</b></div><div class="evt">'+ic('info')+'<button class="prb" data-a="newev">+ New event</button></div><div class="sc" data-sc>'+E.list.map(function(v){return '<button class="ec'+(v.fresh?' new':'')+'" data-a="evopen" data-v="'+v.id+'"><b>'+v.name+'</b><small><em>'+(v.personal?'Personal':'Shared')+'</em>'+v.when+'</small><span class="pb"><i style="width:'+Math.min(100,v.spent/Math.max(v.bud,1)*100)+'%;background:'+v.col+'"></i></span><p>'+inr(v.spent)+' of '+inr(v.bud)+' · '+inr(v.bud-v.spent)+' left</p></button>';}).join('')+'</div>';};
+S.budget=function(a){var B=a.s.bud,left=B.total-B.spent,seg='<div class="ah">'+ic('menu')+'<b>Budget</b></div><div class="seg"><button class="'+(B.fam?'':'on')+'" data-a="bscope" data-v="0">Personal</button><button class="'+(B.fam?'on':'')+'" data-a="bscope" data-v="1">Family</button></div>';if(B.fam)return seg+'<div class="mo">'+ic('l')+'<span>October 2026</span>'+ic('r')+'</div><div class="sc" data-sc><div class="cd"><div class="bt"><span>Family spent of ₹1,10,000</span><span>3 days left</span></div><div class="bg">₹89,023</div><div class="pb"><i style="width:81%;background:#0B5D3B"></i></div><div class="lft">₹20,977 left</div><div class="fsl">You ₹70,000 + Ravi ₹40,000</div></div><div class="bh"><b>Categories</b><span>Added together</span></div><div class="bc"><div><b>Groceries</b><span>90%</span></div><div class="pb"><i style="width:90%;background:#0B5D3B"></i></div><span>₹12,561 of ₹14,000 · ₹1,439 left</span><div class="fsb">Budget: You ₹4,000 + Ravi ₹10,000</div></div><div class="bc"><div><b>Rent</b></div><span>₹22,000 spent · no limit</span></div></div>';return seg+'<div class="mo">'+ic('l')+'<span>October 2026</span>'+ic('r')+'</div><div class="sc" data-sc><div class="cd"><div class="bt"><span>Spent of '+inr(B.total)+'</span><span>3 days left</span></div><div class="bg">'+inr(B.spent)+'</div><div class="pb"><i style="width:'+Math.min(100,B.spent/B.total*100)+'%;background:#946200"></i></div><div class="lft">'+inr(left)+' left</div><div class="br"><button class="prb" data-a="bass">'+ic('spark')+'Budget assistant</button><button class="olb" data-a="bedit">Edit</button></div></div><div class="bh"><b>Categories</b><span>Optional</span></div><div class="bc"><div><b>Rent</b><span class="fx">Fixed</span></div><span>₹22,000 spent · no limit</span></div><div class="bc"><div><b>Groceries</b><span>79%</span></div><div class="pb"><i style="width:79%;background:#0B5D3B"></i></div><span>₹3,161 of ₹4,000 · ₹839 left</span></div>'+(B.shop?'<div class="bc"><div><b>Shopping</b><span>'+Math.round(6500/B.shop*100)+'%</span></div><div class="pb"><i style="width:'+Math.min(100,6500/B.shop*100)+'%;background:#0B5D3B"></i></div><span>₹6,500 of '+inr(B.shop)+' · '+inr(B.shop-6500)+' left</span></div>':'<div class="bc"><div><b>Shopping</b><button data-a="blim">Set limit</button></div><span>₹6,500 spent · no limit</span></div>')+'</div>';};
+var NAV=[['ledger','Ledger'],['review','Review'],['analysis','Analysis'],['events','Events'],['budget','Budget']];
+var uid=0,calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function App(host,o){var a=this;a.o=o||{};a.host=host;a.uid=++uid;a.s=seed(a.o.story);a.tab=a.o.tab||'ledger';if(a.o.state)a.o.state(a.s);host.innerHTML='<div class="app"><div class="view"></div><nav class="nv">'+NAV.map(function(n){return '<button data-a="nav" data-v="'+n[0]+'"'+(a.o.tour?'':' tabindex="-1"')+'>'+ic(n[0])+'<span>'+n[1]+'</span></button>';}).join('')+'</nav><div class="ov"></div><i class="finger"></i></div>';a.root=host.firstChild;a.view=a.root.querySelector('.view');a.ov=a.root.querySelector('.ov');a.fg=a.root.querySelector('.finger');
+ a.fit=function(){var w=host.clientWidth,h=host.clientHeight;if(!w)return;a.scale=w/360;a.root.style.transform='scale('+a.scale+')';a.root.style.height=(h/a.scale)+'px';};a.scale=1;a.fit();if(window.ResizeObserver)new ResizeObserver(a.fit).observe(host);
+ if(a.o.tour)host.addEventListener('click',function(e){var t=e.target.closest('[data-a]');if(e.isTrusted&&a.o.onUser)a.o.onUser();if(!t||!host.contains(t))return;if(A[t.dataset.a])A[t.dataset.a](a,t.dataset.v,t);});a.go(a.tab);}
+App.prototype.go=function(t){var a=this;a.tab=t;a.view.innerHTML=S[t](a);a.view.style.animation='none';void a.view.offsetWidth;a.view.style.animation='';a.close();[].forEach.call(a.root.querySelectorAll('.nv button'),function(b){b.classList.toggle('on',b.dataset.v===t);var old=b.querySelector('u');if(old)old.remove();if(b.dataset.v==='review'&&a.s.rev.rows.length){var u=document.createElement('u');u.textContent=a.s.rev.rows.length;b.appendChild(u);}});if(t==='ledger')a.paint(true);if(a.o.onGo)a.o.onGo(t);};
+App.prototype.q=function(s){return this.root.querySelector(s);};
+App.prototype.sheet=function(h,mid){this.ov.innerHTML='<div class="sh">'+h+'</div>';this.ov.className='ov on'+(mid?' mid':'');};
+App.prototype.close=function(){this.ov.className='ov';this.ov.innerHTML='';};
+function tween(el,to,f,inst){if(!el)return;var from=el._v==null?to:el._v;el._v=to;if(inst||calm||from===to){el.textContent=f(to);return;}var t0=performance.now();cancelAnimationFrame(el._r);(function g(t){var p=Math.min(1,(t-t0)/620),e=1-Math.pow(1-p,3);el.textContent=f(from+(to-from)*e);if(p<1)el._r=requestAnimationFrame(g);})(t0);}
+App.prototype.paint=function(inst){var a=this,L=a.s.led,sp=L.counted?L.exp:L.exp-L.inv,net=L.inc-sp,den=Math.max(L.inc,L.exp),tot=L.today.reduce(function(s,r){return s+(r.k==='out'?r.amt:0);},0);
+ function g(k){return a.q('[data-l='+k+']');}
+ tween(g('exp'),sp,inr,inst);tween(g('inc'),L.inc,inr,inst);tween(g('inv'),L.inv,inr,inst);tween(g('net'),net,inr,inst);tween(g('tot'),tot,function(v){return inr(v)+' spent';},inst);
+ if(g('net'))g('net').style.color=net<0?'#B8402B':'';
+ if(g('be')){g('be').style.width=((L.exp-L.inv)/den*100)+'%';g('bi').style.width=(L.inv/den*100)+'%';g('nl').textContent=L.counted?'Net after investments':'Net before investments';g('sw').classList.toggle('off',!L.counted);}};
+App.prototype.addRow=function(r){var L=this.s.led;if(L.today.some(function(x){return x.id===r.id;}))return;L.today.unshift(r);if(r.k==='in')L.inc+=r.amt;else L.exp+=r.amt;var box=this.q('[data-l=tod]');if(box){box.insertAdjacentHTML('afterbegin',rowH(r,true));var el=box.firstChild;void el.offsetWidth;el.classList.remove('new');el.classList.add('flash');setTimeout(function(){el.classList.remove('flash');},1200);}this.paint();};
+App.prototype.delRow=function(id){var L=this.s.led,i=-1;L.today.forEach(function(x,n){if(x.id===id)i=n;});if(i<0)return;var r=L.today.splice(i,1)[0];if(r.k==='in')L.inc-=r.amt;else L.exp-=r.amt;var el=this.q('[data-row='+id+']');if(el)el.remove();this.paint();};
+App.prototype.revStage=function(n){var R=this.s.rev,a=this;if(R._st===n)return;var was=R._st;R._st=n;R.note='RK Enterprises will be Shopping next time.';R.rows=[{id:'rk',t:'RK Enterprises',when:'28 Oct 2026 · 21:09 · Card ··7702',amt:1200,cat:n>=1?'Shopping':null,mode:'Card'}];if(n<2){a.go('review');return;}if(was!==1||calm){R.rows=[];a.go('review');return;}a.go('review');var c=a.q('.rc');void c.offsetWidth;c.classList.add('gone');setTimeout(function(){if(R._st===2){R.rows=[];a.go('review');}},420);};
+var A={
+ nav:function(a,v){a.go(v);},
+ entry:function(a,id){var L=a.s.led,r=L.today.concat(L.yest).filter(function(x){return x.id===id;})[0];a.cur=r;var cls=r.k==='in'?'it':r.k==='inv'?'vt':'ot';a.sheet('<h4>'+r.t+'</h4><p class="'+cls+'" style="font-weight:600">'+inr(r.amt)+'</p><p>Category · '+r.c+'</p><p>Payment mode · UPI</p><p>Account · HDFC ··1234</p><p>Note · No note</p><div class="sa"><button data-a="close">Close</button><button data-a="eedit">Edit</button></div>',true);},
+ eedit:function(a){var r=a.cur;a.pick=r.c;a.sheet('<h4>Edit entry</h4><p>'+r.t+' · '+inr(r.amt)+'</p><p style="margin-top:1em">Category</p><div class="chips">'+['Groceries','Eating out','Shopping','Travel','Other'].map(function(c){return '<button class="'+(c===r.c?'on':'')+'" data-a="ecat" data-v="'+c+'">'+c+'</button>';}).join('')+'</div><div class="sa"><button data-a="close">Cancel</button><button data-a="esave">Save</button></div>',true);},
+ ecat:function(a,v,t){a.pick=v;[].forEach.call(t.parentNode.children,function(b){b.classList.toggle('on',b===t);});},
+ esave:function(a){var r=a.cur;r.c=a.pick;r.sub=r.sub.replace(/^[^·]+/,a.pick+' ');a.go('ledger');var el=a.q('[data-row='+r.id+']');if(el){el.classList.add('flash');setTimeout(function(){el.classList.remove('flash');},1300);}},
+ tog:function(a){a.s.led.counted=!a.s.led.counted;a.paint();},
+ close:function(a){a.close();},
+ rseg:function(a,v){a.s.rev.seg=v;a.go('review');},
+ rcat:function(a,id){a.cur=id;a.sheet('<h4>Category</h4><p>RK Enterprises · ₹1,200</p><div class="chips">'+['Shopping','Groceries','Eating out','Other'].map(function(c){return '<button data-a="rpick" data-v="'+c+'">'+c+'</button>';}).join('')+'</div><div class="sa"><button data-a="close">Cancel</button></div>');},
+ rpick:function(a,v){a.s.rev.rows.forEach(function(r){if(r.id===a.cur)r.cat=v;});a.s.rev.note='RK Enterprises will be '+v+' next time.';a.go('review');},
+ rok:function(a,id){var R=a.s.rev,r=R.rows.filter(function(x){return x.id===id;})[0];if(!r||!r.cat)return;var c=a.q('[data-r='+id+']');if(c)c.classList.add('gone');setTimeout(function(){R.rows=R.rows.filter(function(x){return x.id!==id;});if(a.tab==='review')a.go('review');},calm?0:420);},
+ ainc:function(a){a.s.an.inc=!a.s.an.inc;var y=(a.q('[data-sc]')||{}).scrollTop;a.go('analysis');var s=a.q('[data-sc]');if(s)s.scrollTop=y;},
+ afam:function(a,v){a.s.an.fam=v==='1';a.go('analysis');},
+ acat:function(a,c){var e=ENTRIES[c]||[],t=e.reduce(function(s,x){return s+x[2];},0);a.sheet('<h4>'+c+'</h4><p>'+e.length+(e.length===1?' entry':' entries')+' · '+inr(t)+'</p><div style="margin-top:.8em">'+e.map(function(x){return '<div class="cr">'+tile(c)+'<span class="lm"><b>'+x[0]+'</b><small>'+x[1]+'</small></span><span class="la"><strong class="ot">'+inr(x[2])+'</strong></span></div>';}).join('')+'</div><div class="sa"><button data-a="close">Close</button></div>');},
+ newev:function(a){a.sheet('<h4>New event</h4><label class="fld"><small>Event name</small><input data-f="name" placeholder="A trip, wedding or festival"></label><label class="fld"><small>Dates</small><input data-f="when" value="20–22 Nov 2026"></label><label class="fld"><small>Budget (optional)</small><input data-f="bud" inputmode="numeric" placeholder="₹"></label><button class="trow" data-a="evsh" style="margin-top:.8em"><span>Share with family</span><i class="sw" data-f="sh"></i></button><div class="sa"><button data-a="close">Cancel</button><button data-a="evcreate">Create event</button></div>');},
+ evsh:function(a){a.q('[data-f=sh]').classList.toggle('off');},
+ evcreate:function(a){var sh=!a.q('[data-f=sh]').classList.contains('off'),n=a.q('[data-f=name]').value||'Anniversary dinner',b=parseInt((a.q('[data-f=bud]').value||'').replace(/\D/g,''),10)||8000,w=a.q('[data-f=when]').value;a.s.ev.list.forEach(function(x){x.fresh=false;});a.s.ev.list.unshift({id:'n'+Date.now(),name:n,when:w+' · upcoming',spent:0,bud:b,col:'#0B5D3B',fresh:true,personal:!sh});a.go('events');},
+ evopen:function(a,v){a.s.ev.open=v;a.go('events');},
+ evback:function(a){a.s.ev.open=null;a.go('events');},
+ bedit:function(a){a.sheet('<h4>October budget</h4><label class="fld"><small>Total monthly budget</small><input data-f="bud" inputmode="numeric" value="'+inr(a.s.bud.total)+'"></label><p style="margin-top:1em">Last 3 months: you spent ₹47,300 a month on average.</p><div class="sa"><button data-a="close">Cancel</button><button data-a="bsave">Save budget</button></div>');},
+ bsave:function(a){var v=parseInt(a.q('[data-f=bud]').value.replace(/\D/g,''),10);if(v>0)a.s.bud.total=v;a.go('budget');},
+ bass:function(a){a.sheet('<h4>Budget assistant</h4><label class="fld"><small>Your monthly income</small><input value="₹95,000" readonly></label><label class="fld"><small>You want to invest</small><input value="₹10,000" readonly></label><label class="fld"><small>You want to save</small><input value="₹15,000" readonly></label><div class="cd" style="margin-top:1em;padding:1.2em"><p style="margin:0">Leaves for spending</p><div style="font-size:2.4em;font-weight:600">₹70,000</div><p style="margin:.3em 0 0">Kept as is: Rent ₹22,000</p></div><button class="prb" style="margin-top:1.2em" data-a="buse">Use this budget</button>');},
+ bscope:function(a,v){a.s.bud.fam=v==='1';a.go('budget');},
+ blim:function(a){a.sheet('<h4>Shopping limit</h4><label class="fld"><small>Limit for the month</small><input data-f="bud" inputmode="numeric" placeholder="₹"></label><p style="margin-top:1em">Last 3 months: ₹5,400 a month on average.</p><div class="sa"><button data-a="close">Cancel</button><button data-a="blsave">Save</button></div>');},
+ blsave:function(a){var v=parseInt(a.q('[data-f=bud]').value.replace(/\D/g,''),10);if(v>0)a.s.bud.shop=v;a.go('budget');},
+ buse:function(a){a.s.bud.total=70000;a.go('budget');}
+};
+var STOP={};
+function Player(a){this.a=a;this.tok=0;}
+Player.prototype.stop=function(){this.tok++;this.a.fg.classList.remove('on');};
+Player.prototype.wait=function(ms,t){var me=this;return new Promise(function(ok,no){setTimeout(function(){me.tok===t?ok():no(STOP);},ms);});};
+Player.prototype.tap=async function(sel,t){var a=this.a,el=a.q(sel);await this.wait(0,t);if(!el)return;var sc=el.closest('[data-sc]');if(sc){var d=el.getBoundingClientRect(),s=sc.getBoundingClientRect();if(d.top<s.top+10||d.bottom>s.bottom-10){sc.scrollTo({top:sc.scrollTop+(d.top-s.top-s.height*.4)/a.scale,behavior:'smooth'});await this.wait(520,t);}}
+ var r=el.getBoundingClientRect(),R=a.root.getBoundingClientRect();a.fg.classList.add('on');a.fg.style.left=((r.left+r.width/2-R.left)/a.scale)+'px';a.fg.style.top=((r.top+r.height/2-R.top)/a.scale)+'px';await this.wait(640,t);a.fg.classList.add('dn2');await this.wait(150,t);a.fg.classList.remove('dn2');var e=a.q(sel);if(e)A[e.dataset.a](a,e.dataset.v,e);await this.wait(420,t);};
+Player.prototype.type=async function(sel,text,t){var a=this.a,i=a.q(sel);await this.wait(350,t);if(!i)return;var r=i.getBoundingClientRect(),R=a.root.getBoundingClientRect();a.fg.classList.add('on');a.fg.style.left=((r.left+r.width/2-R.left)/a.scale)+'px';a.fg.style.top=((r.top+r.height/2-R.top)/a.scale)+'px';await this.wait(640,t);i.value='';for(var n=1;n<=text.length;n++){await this.wait(55,t);i.value=text.slice(0,n);}await this.wait(380,t);};
+Player.prototype.play=async function(fn){this.stop();var t=this.tok,me=this;var h={tap:function(s){return me.tap(s,t);},type:function(s,x){return me.type(s,x,t);},wait:function(m){return me.wait(m,t);},fresh:function(tab){me.a.s=seed();me.a.go(tab);}};try{await fn(h);me.a.fg.classList.remove('on');return true;}catch(e){if(e!==STOP)throw e;return false;}};
+window.ILLU={App:App,Player:Player,calm:calm};
+})();
+</script>
+<script>
+(function(){
+var d=document,$=function(i){return d.getElementById(i);},calm=ILLU.calm,App=ILLU.App,Player=ILLU.Player;
+requestAnimationFrame(function(){d.body.classList.add('ready');});
+var SK={id:'sk',t:'Sharma Kirana',c:'Groceries',sub:'Groceries · HDFC ··1234',amt:349,k:'out',tm:'Just now',auto:true},
+    SAL={id:'sal',t:'Salary',c:'Income',sub:'Income · HDFC ··1234',amt:30000,k:'in',tm:'Just now',auto:true};
+
+// Hero
+new App($('h1'),{tab:'analysis'});
+new App($('h3'),{tab:'analysis',state:function(s){s.an.fam=true;}});
+var hl=new App($('h2'),{tab:'ledger',state:function(s){s.led.exp=61174;s.led.today=s.led.today.filter(function(r){return r.id!=='sk'&&r.id!=='sal';});}});
+if(calm)hl.addRow(SK);else setTimeout(function(){hl.addRow(SK);},2950);
+
+// One-shot reveals
+var budgetApp=new App($('bdp'),{tab:'budget',state:function(s){s.bud.total=70000;}});
+var evApp=new App($('evp'),{tab:'events',state:function(s){s.ev.open='goa';}}),evP=new Player(evApp),evOn=false;
+async function evLoop(){while(evOn){var ok=await evP.play(async function(h){h.fresh('events');await h.wait(900);await h.tap('[data-a=newev]');await h.type('[data-f=name]','Family wedding');await h.type('[data-f=bud]','₹50,000');await h.wait(500);await h.tap('[data-a=evcreate]');await h.wait(2000);await h.tap('[data-a=evopen][data-v=goa]');await h.wait(3400);await h.tap('[data-a=evback]');await h.wait(500);});if(!ok)return;}}
+if(!calm)new IntersectionObserver(function(es){var v=es[0].isIntersecting;if(v&&!evOn){evOn=true;evLoop();}else if(!v&&evOn){evOn=false;evP.stop();}},{threshold:.5}).observe($('evp'));
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;e.target.classList.add('in-v');io.unobserve(e.target);var c=e.target.querySelector('[data-count]');if(c&&!calm)count(c);});},{threshold:.35});
+d.querySelectorAll('[data-v]').forEach(function(n){io.observe(n);});
+var buP=new Player(budgetApp),buOn=false,buGen=0,buI=0,buBtns=[].slice.call($('blist').querySelectorAll('button'));
+var BU=[
+ async function(h){h.fresh('budget');budgetApp.s.bud.total=70000;budgetApp.go('budget');await h.wait(1400);await h.tap('[data-a=blim]');await h.type('[data-f=bud]','₹8,000');await h.tap('[data-a=blsave]');await h.wait(2400);},
+ async function(h){h.fresh('budget');await h.wait(1000);await h.tap('[data-a=bass]');await h.wait(2800);await h.tap('[data-a=buse]');await h.wait(2000);},
+ async function(h){h.fresh('budget');budgetApp.s.bud.total=70000;budgetApp.go('budget');await h.wait(1000);await h.tap('[data-a=bscope][data-v="1"]');await h.wait(3800);}
+];
+function buMark(){buBtns.forEach(function(b,i){b.classList.toggle('on',i===buI);});}
+async function buLoop(){var me=++buGen;while(buOn&&me===buGen){buMark();var ok=await buP.play(BU[buI]);if(!ok||me!==buGen)return;buI=(buI+1)%BU.length;}}
+buBtns.forEach(function(b,i){b.addEventListener('click',function(){buI=i;buP.stop();buGen++;buMark();if(buOn)buLoop();else buP.play(BU[i]);});});
+if(!calm)new IntersectionObserver(function(es){var v=es[0].isIntersecting;if(v&&!buOn){buOn=true;buLoop();}else if(!v&&buOn){buOn=false;buGen++;buP.stop();}},{threshold:.4}).observe($('bdp'));
+function fmt(n){var s=String(Math.round(n));if(s.length<=3)return s;var l=s.slice(-3),r=s.slice(0,-3);return r.replace(/\B(?=(\d{2})+(?!\d))/g,',')+','+l;}
+function inr(n){return '₹'+fmt(n);}
+function count(el){var to=+el.dataset.count,t0=performance.now(),D=1300;(function f(t){var p=Math.min(1,(t-t0)/D),e=1-Math.pow(1-p,3);el.textContent='₹'+fmt(to*e);if(p<1)requestAnimationFrame(f);})(t0);}
+
+// Story phone
+var led=new App($('l-ledger'),{tab:'ledger',story:true}),
+    rev=new App($('l-review'),{tab:'review'}),
+    an=new App($('l-analysis'),{tab:'analysis',trendOff:true,askOff:true});
+rev.revStage(0);
+var stage=$('stage'),disc=$('disc'),sp=$('sp'),layers=[].slice.call(stage.querySelectorAll('.layer')),steps=[].slice.call(d.querySelectorAll('.step')),s1=$('s1'),s2=$('s2'),beats=[].slice.call($('beats').children),
+    fan=$('fan'),scenes=[].slice.call(d.querySelectorAll('.fam')).map(function(f){return [f,f.querySelector('.scene img')];}),links=[].slice.call(d.querySelectorAll('a.lnk')),now=$('now'),secs=[].slice.call(d.querySelectorAll('[data-s]:not(a)')),
+    scan=an.q('[data-sc]'),bars=an.q('[data-an=bars]'),qEl=an.q('[data-an=q]'),aEl=an.q('[data-an=a]');
+var layerOf=['ledger','review','analysis','analysis','analysis'],names={auto:'Ledger',analysis:'Analysis',family:'Family',privacy:'Privacy',pricing:'Pricing'};
+var last=-1,sub=-1,ticking=false,target=0,cur=0,looping=false,asked=false,askT=0;
+function top(sel){var e=an.q('[data-an='+sel+']');return (e.getBoundingClientRect().top-scan.getBoundingClientRect().top)/an.scale+scan.scrollTop;}
+function setSub(v){if(v===sub)return;var was=sub;sub=v;
+ s1.classList.toggle('shown',v===0);s1.classList.toggle('landed',v>=1);s2.classList.toggle('shown',v===2);s2.classList.toggle('landed',v>=3);
+ if(v>=1)led.addRow(SK);else led.delRow('sk');
+ if(v>=3)led.addRow(SAL);else led.delRow('sal');
+ if(v>=1&&was<1){stage.classList.remove('go1');void stage.offsetWidth;stage.classList.add('go1');}
+ if(v>=3&&was<3){stage.classList.remove('go2');void stage.offsetWidth;stage.classList.add('go2');}}
+function loop(){var dy=target-cur;if(Math.abs(dy)<.5){cur=target;scan.scrollTop=cur;looping=false;return;}cur+=dy*(calm?1:.16);scan.scrollTop=cur;requestAnimationFrame(loop);}
+function aim(y){target=Math.max(0,Math.min(y,scan.scrollHeight-scan.clientHeight));if(!looping){looping=true;requestAnimationFrame(loop);}}
+function mixL(a,b,t){return a+(b-a)*Math.max(0,Math.min(1,t));}
+function ask(on){if(on===asked)return;asked=on;clearInterval(askT);var Q='How much did I spend on Swiggy?';if(!on){qEl.textContent='';aEl.classList.add('hide');return;}if(calm){qEl.textContent=Q;aEl.classList.remove('hide');return;}var n=0;askT=setInterval(function(){n++;qEl.textContent=Q.slice(0,n);if(n>=Q.length){clearInterval(askT);aEl.classList.remove('hide');}},38);}
+function frame(){ticking=false;
+ var vh=innerHeight,m=innerWidth<=900,trig=m?vh*.66:vh*.55,i=0;
+ steps.forEach(function(s,n){if(s.getBoundingClientRect().top<trig)i=n;});
+ var r=steps[i].getBoundingClientRect(),p=Math.max(0,Math.min(1,(trig-r.top)/(r.height-(m?0:vh*.28))));
+ if(i!==last){last=i;var k=layerOf[i];layers.forEach(function(l){l.classList.toggle('on',l.dataset.k===k);});steps.forEach(function(s,n){s.classList.toggle('cur',n===i);});sp.style.setProperty('--rot',(i%2?1.6:-1.6)+'deg');bars.classList.toggle('go',i>=3);ask(i===4);}
+ if(i===0)setSub(p<.04?-1:p<.26?0:p<.42?1:p<.68?2:3);else{setSub(3);s1.classList.remove('shown');s2.classList.remove('shown');}
+ if(i===1)rev.revStage(p<.4?0:p<.72?1:2);else if(i<1)rev.revStage(0);
+ if(i<=1)aim(0);
+ else if(i===2){var ev=top('ev')-10,ce=top('catend')-(m?(stage.getBoundingClientRect().bottom-scan.getBoundingClientRect().top)/an.scale:scan.clientHeight)+24;aim(p<.1?0:p<.34?mixL(0,ev,(p-.1)/.24):p<.44?ev:mixL(ev,ce,(p-.44)/.5));var b=p<.2?0:p<.5?1:2;beats.forEach(function(li,n){li.classList.toggle('on',n===b);});}
+ else if(i===3)aim(top('trend')-8);
+ else aim(top('ask')-8);
+ if(!calm){var sr=$('story').getBoundingClientRect(),q=Math.max(0,Math.min(1,-sr.top/(sr.height-vh)));disc.style.setProperty('--ds',(.82+q*.5).toFixed(3));disc.style.setProperty('--dr',(q*60).toFixed(1)+'deg');fan.style.setProperty('--sx',Math.min(70,scrollY*.14).toFixed(1)+'px');
+  if(!m)scenes.forEach(function(x){var fr=x[0].getBoundingClientRect();if(fr.bottom>0&&fr.top<vh)x[1].style.setProperty('--cz',(1+Math.max(0,Math.min(1,(vh-fr.top)/(vh+fr.height)))*.07).toFixed(3));});}
+ var c='';secs.forEach(function(s){if(s.getBoundingClientRect().top<vh*.5)c=s.dataset.s;});
+ links.forEach(function(a){a.classList.toggle('on',a.dataset.s===c);});now.textContent=names[c]||'';
+}
+function onS(){if(!ticking){ticking=true;requestAnimationFrame(frame);}}
+addEventListener('scroll',onS,{passive:true});addEventListener('resize',onS);frame();
+
+// Sharing levels
+var opts=[].slice.call($('opts').children),lvp=$('lvp'),lvT=0,lvn=0;
+function setL(n){lvn=n;lvp.dataset.l=n;opts.forEach(function(o,i){o.classList.toggle('on',i===n);});}
+opts.forEach(function(o,i){o.addEventListener('click',function(){clearInterval(lvT);lvT=-1;setL(i);});});
+if(!calm)new IntersectionObserver(function(es){if(lvT===-1)return;clearInterval(lvT);if(es[0].isIntersecting)lvT=setInterval(function(){setL((lvn+1)%3);},2800);},{threshold:.5}).observe(lvp);
+
+// Tour
+var CHECK='<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5l11 7-11 7z"/></svg>';
+var TOUR=[
+ {tab:'ledger',name:'Ledger',acts:[
+  ['Tap an entry and edit it',async function(h){h.fresh('ledger');await h.wait(500);await h.tap('[data-id=swiggy]');await h.wait(900);await h.tap('[data-a=eedit]');await h.wait(500);await h.tap('[data-a=ecat][data-v=Groceries]');await h.wait(500);await h.tap('[data-a=esave]');await h.wait(1500);}],
+  ['Count investments as spending, or don’t, and watch the totals change',async function(h){h.fresh('ledger');await h.wait(600);await h.tap('[data-a=tog]');await h.wait(2300);await h.tap('[data-a=tog]');await h.wait(1500);}]]},
+ {tab:'review',name:'Review',acts:[
+  ['Pick a category and approve',async function(h){h.fresh('review');await h.wait(600);await h.tap('[data-a=rcat]');await h.wait(500);await h.tap('[data-a=rpick][data-v=Shopping]');await h.wait(700);await h.tap('[data-a=rok]');await h.wait(1900);}],
+  ['See what was added for you',async function(h){h.fresh('review');await h.wait(500);await h.tap('[data-a=rseg][data-v=auto]');await h.wait(2300);}]]},
+ {tab:'analysis',name:'Analysis',acts:[
+  ['Tap a category to see every entry in it',async function(h){h.fresh('analysis');await h.wait(800);await h.tap('[data-a=acat][data-v="Goa trip"]');await h.wait(1900);await h.tap('[data-a=close]');await h.wait(400);await h.tap('[data-a=acat][data-v=Shopping]');await h.wait(2300);await h.tap('[data-a=close]');await h.wait(500);}],
+  ['Leave events out to see an everyday month',async function(h){h.fresh('analysis');await h.wait(800);await h.tap('[data-a=ainc]');await h.wait(2400);await h.tap('[data-a=ainc]');await h.wait(1300);}],
+  ['Switch to the whole family',async function(h){h.fresh('analysis');await h.wait(700);await h.tap('[data-a=afam][data-v="1"]');await h.wait(2600);}]]},
+ {tab:'events',name:'Events',acts:[
+  ['Create an event and give it a budget',async function(h){h.fresh('events');await h.wait(600);await h.tap('[data-a=newev]');await h.type('[data-f=name]','Anniversary dinner');await h.type('[data-f=bud]','₹8,000');await h.tap('[data-a=evcreate]');await h.wait(2100);}],
+  ['Open a trip to see who spent what',async function(h){h.fresh('events');await h.wait(600);await h.tap('[data-a=evopen][data-v=goa]');await h.wait(2800);await h.tap('[data-a=evback]');await h.wait(700);}]]},
+ {tab:'budget',name:'Budget',acts:[
+  ['Change the month’s budget',async function(h){h.fresh('budget');await h.wait(1000);await h.tap('[data-a=bedit]');await h.type('[data-f=bud]','₹75,000');await h.tap('[data-a=bsave]');await h.wait(2200);}],
+  ['Let the assistant suggest one',async function(h){h.fresh('budget');await h.wait(800);await h.tap('[data-a=bass]');await h.wait(2300);await h.tap('[data-a=buse]');await h.wait(2200);}],
+  ['See the family’s budget together',async function(h){h.fresh('budget');await h.wait(800);await h.tap('[data-a=bscope][data-v="1"]');await h.wait(3200);}]]}
+];
+var tabsEl=$('ttabs'),actEl=$('tact'),tph=$('tph'),inView=false,grp=0,actI=0,gen=0,player;
+var tourApp=new App($('tourp'),{tab:'ledger',tour:true});
+player=new Player(tourApp);
+tabsEl.innerHTML=TOUR.map(function(g){return '<button>'+g.name+'</button>';}).join('');
+function paint(){[].forEach.call(tabsEl.children,function(b,i){b.classList.toggle('on',i===grp);});var b=tabsEl.children[grp];tabsEl.scrollTo({left:b.offsetLeft-tabsEl.offsetLeft-(tabsEl.clientWidth-b.offsetWidth)/2,behavior:calm?'auto':'smooth'});actEl.innerHTML=TOUR[grp].acts.map(function(x,i){return '<li><button data-i="'+i+'" class="'+(i===actI?'on':'')+'"><i>'+CHECK+'</i>'+x[0]+'</button></li>';}).join('');}
+async function run(){var me=++gen;while(inView&&me===gen){paint();var ok=await player.play(TOUR[grp].acts[actI][1]);if(!ok||me!==gen)return;actI++;if(actI>=TOUR[grp].acts.length){actI=0;grp=(grp+1)%TOUR.length;}}}
+function pick(g,a,dir){grp=g;actI=a;player.stop();gen++;if(dir&&!calm)tph.animate([{transform:'translateX('+(dir*16)+'%)',opacity:.45},{transform:'none',opacity:1}],{duration:260,easing:'ease-out'});if(calm){paint();player.play(TOUR[g].acts[a][1]);return;}if(inView)run();else paint();}
+[].forEach.call(tabsEl.children,function(b,i){b.addEventListener('click',function(){pick(i,0,i>grp?1:i<grp?-1:0);});});
+actEl.addEventListener('click',function(e){var b=e.target.closest('button');if(b)pick(grp,+b.dataset.i,0);});
+var sx=null,sy=0;
+tph.addEventListener('pointerdown',function(e){sx=e.clientX;sy=e.clientY;});
+tph.addEventListener('pointerup',function(e){if(sx===null)return;var dx=e.clientX-sx,dy=e.clientY-sy;sx=null;if(Math.abs(dx)>36&&Math.abs(dx)>Math.abs(dy)*1.2){var dir=dx<0?1:-1;pick((grp+dir+TOUR.length)%TOUR.length,0,dir);}});
+tph.addEventListener('pointercancel',function(){sx=null;});
+paint();
+new IntersectionObserver(function(es){inView=es[0].isIntersecting;if(inView&&!calm)run();else if(!inView){gen++;player.stop();}},{threshold:.35}).observe($('tourp'));
+
+// Sections slide over each other: each one holds at its end while the next arrives
+var stackKids=[].slice.call(d.querySelectorAll('.stack>*')),chaps=[].slice.call(d.querySelectorAll('.chap:not(.tour)'));
+stackKids.forEach(function(c,i){c.style.zIndex=i+1;});
+function pin(){var H=innerHeight;chaps.forEach(function(c){c.style.top=Math.min(0,H-c.offsetHeight)+'px';});}
+pin();addEventListener('resize',pin);addEventListener('load',pin);if(window.ResizeObserver){var pr=new ResizeObserver(pin);chaps.forEach(function(c){pr.observe(c);});}
+// Menu links measure the page with the sliding switched off, so they land in the right place
+d.addEventListener('click',function(e){var a=e.target.closest('a[href^="#"]');if(!a)return;var t=d.querySelector(a.getAttribute('href'));if(!t)return;e.preventDefault();chaps.forEach(function(c){c.style.position='relative';c.style.top='0';});var y=t.id==='top'?0:t.getBoundingClientRect().top+scrollY-(innerWidth<=900?64:72);chaps.forEach(function(c){c.style.position='';});pin();window.scrollTo({top:y,behavior:calm?'auto':'smooth'});});
+
+// Pricing — date-driven offer calendar, kept in step with the app's own (see pro-trial-buy-purchase-handoff / website-pricing-handoff)
+var IC2={sms:'M4 5h16v11H9l-5 4z',cal:'M4 6h16v15H4zM4 10h16M8 3v4M16 3v4',fam:'M9 11a3.5 3.5 0 100-7 3.5 3.5 0 000 7zM2.5 20c.6-3.600 3.100-5.500 6.500-5.500s5.900 1.900 6.500 5.500M16 4.800a3.500 3.500 0 010 6.400M18 14.900c1.900.8 3.100 2.500 3.500 5.100',ask:'M4 4h16v13H9l-5 4zM8 9.5h8M8 13h5'};
+function ci(k){return '<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="'+IC2[k]+'"/></svg>';}
+var PRICE_FULL={solo:799,couple:1199,family:1599};
+var PRICE_BY_OFFER={launch:{solo:399,couple:599,family:799},founder:{solo:599,couple:899,family:1199},festival:{solo:479,couple:719,family:959}};
+PRICE_BY_OFFER.sankranti=PRICE_BY_OFFER.festival;
+var OFFER_PILL={launch:'Launch week: half price until 14 December',founder:'Founder price: 25% off until 31 January',festival:'Festival sale: 40% off until 1 January',sankranti:'Sankranti sale: 40% off until 16 January'};
+var CTA_TEXT={before:['Ring the bell for launch','Ring the bell'],prereg:['Pre-register on Google Play','Pre-register']};
+function offerState(){var t=new Date(),n=t.getFullYear()*10000+(t.getMonth()+1)*100+t.getDate();
+ if(n<20261119)return'before';if(n<20261208)return'prereg';if(n<=20261214)return'launch';
+ if(n>=20261225&&n<=20270101)return'festival';if(n>=20270113&&n<=20270116)return'sankranti';
+ if(n<=20270131)return'founder';return'full';}
+var ST=offerState(),TEASER=(ST==='before'||ST==='prereg'),PLAN_OFFER=TEASER?'launch':ST,ON_PLAN_OFFER=!!PRICE_BY_OFFER[PLAN_OFFER];
+function priceOf(tier,offer){return (PRICE_BY_OFFER[offer]||PRICE_FULL)[tier];}
+function perPhone(tier,offer,phones){return Math.round(priceOf(tier,offer)/phones);}
+var HERO_PRICE=TEASER?PRICE_FULL.solo:priceOf('solo',ST);
+var PLAY_URL='https://play.google.com/store/apps/details?id=com.moneyledger.app&utm_source=illuapp&utm_medium=site';
+d.getElementById('pr-h2').textContent='Free to use, forever. Pro is a one-time payment, from '+inr(HERO_PRICE)+'.';
+d.getElementById('pr-pay').textContent='Pay once. Not '+inr(HERO_PRICE)+' a year.';
+d.getElementById('pr-launchnote').hidden=!TEASER;
+d.getElementById('pr-offer').innerHTML=ST==='full'?'':TEASER?'<div class="offer teaser"><i></i><span>Half price in launch week, 8–14 December.</span></div>':'<div class="offer"><i></i><span>'+OFFER_PILL[ST]+'</span></div>';
+var CARDS=[['sms','Entries add themselves','Clear bank payments go straight into your ledger. Only unsure ones wait for you.'],
+ ['ask','Ask ILLU','Ask about your spending in your own words.'],
+ ['cal','Events','Trips, weddings and festivals, each with its own budget.'],
+ ['fam','Share with everyone','Everyone on your plan, at any level, and every month of family history.']];
+d.getElementById('pr-cards').innerHTML=CARDS.map(function(c){return '<div class="prcard"><i>'+ci(c[0])+'</i><b>'+c[1]+'</b><span>'+c[2]+'</span></div>';}).join('');
+var PLANS=[['solo','Just me',1],['couple','Me + partner',2],['family','Whole family',6]];
+d.getElementById('pr-plans').innerHTML=PLANS.map(function(p){var key=p[0],phones=p[2],price=priceOf(key,PLAN_OFFER),full=PRICE_FULL[key],
+ phoneLabel=phones===1?'1 phone':(key==='family'?'Up to '+phones+' phones':phones+' phones')+' · '+inr(perPhone(key,PLAN_OFFER,phones))+' a phone';
+ return '<div class="plan"><div class="phs'+(phones>2?' six':'')+'">'+new Array(phones>2?6:phones).fill('<i></i>').join('')+'</div><b>'+p[1]+'</b><small>'+phoneLabel+'</small><div class="pz"><strong>'+inr(price)+'</strong>'+(ON_PLAN_OFFER?'<s>'+inr(full)+'</s>':'')+'</div></div>';
+}).join('');
+function applyCta(){var label=CTA_TEXT[ST],full=label?label[0]:'Get ILLU on Google Play',short=label?label[1]:'Get ILLU';
+ d.querySelectorAll('[data-cta]').forEach(function(s){s.textContent=full;});
+ d.querySelectorAll('[data-cta-short]').forEach(function(s){s.textContent=short;});
+ d.querySelectorAll('[data-pro-cta]').forEach(function(a){if(TEASER){a.setAttribute('data-bell','1');a.href='/rang';}else{a.removeAttribute('data-bell');a.href=PLAY_URL;}});
+ d.querySelectorAll('[data-prelaunch]').forEach(function(p){p.style.display=TEASER?'':'none';});
+}
+applyCta();
+var bellDlg=$('bellDlg');
+if(bellDlg){
+ d.addEventListener('click',function(e){var a=e.target.closest('[data-pro-cta][data-bell]');if(a){e.preventDefault();bellDlg.showModal();}});
+ bellDlg.querySelector('[data-bell-close]').addEventListener('click',function(){bellDlg.close();});
+ bellDlg.addEventListener('click',function(e){if(e.target===bellDlg)bellDlg.close();});
+}
+var prFreeTog=$('prFreeTog'),prFreeList=$('prFreeList');
+if(prFreeTog)prFreeTog.addEventListener('click',function(){var open=prFreeTog.getAttribute('aria-expanded')==='true';prFreeTog.setAttribute('aria-expanded',!open);prFreeList.hidden=open;});
+})();
+</script>
+</html>
